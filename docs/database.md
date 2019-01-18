@@ -2,9 +2,9 @@
 
 We're using mysql database.
 
-Got two tables so far in database `poosdsmall`. 
+Got two tables so far in database `poosdsmall`.
 
-### Users Table
+## Users Table
 ```
 mysql> DESCRIBE users;
 +---------------+------------------+------+-----+---------+----------------+
@@ -18,7 +18,7 @@ mysql> DESCRIBE users;
 4 rows in set (0.00 sec)
 ```
 
-### Contacts Table
+## Contacts Table
 ```
 mysql> DESCRIBE contacts;
 +---------------+------------------+------+-----+---------+----------------+
