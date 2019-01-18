@@ -4,7 +4,7 @@
 
 `/usr/share/github/small-project` contains a clone of [this GitHub repository](https://github.com/poosd-gang/small-project/tree/master/docs). Running `sudo git pull` will pull in any changes made to the repository (that were committed and then pushed to GitHub's copy of the repo).
 
-**Please don't make crazy changes to the files in `/usr/share/github/small-project`** as this will get really annoying to deal with when pulling in stuff from the GitHub repo. If you do happen to make a change, please `scp` the affected files to your local clone of the repository, commit (please to master), push/pull request/merge. We should try not to have to freshly clone onto the server so often (or ever!).
+**Please don't make crazy changes to the files in `/usr/share/github/small-project`** as this will get really annoying to deal with when pulling in stuff from the GitHub repo. If you do happen to make a change, please `scp` the affected files to your local clone of the repository, commit (please to branch that isn't master), push/pull request/merge. We should try not to have to freshly clone onto the server so often (or ever!).
 
 ## How it Works
 
