@@ -17,7 +17,7 @@ task | description | persons |
 | server/deployment/git | Making sure components below work together and deploying completed code to server. Keeping the GitHub in order. | Charles |
 | database | Building and populating database. | David, Charles |
 | php | API connection from backend to front end | David, Chantale, Trishna |
-| javascript/json transmission | Adding functionality on the front end and processing connections to the API. | Trishna |
+| javascript/json transmission | Adding functionality on the front end and processing connections to the API. | Trishna, Lienne |
 | ui/ux css html | Designing and formatting the visual aspects of the project. What the user sees and interacts with. | Maryam And Lienne |
 | research | Interviewing each person who completes a section to find out why they chose the tech they did, how they did it, and what obstacles they faced. | Jordan |
 | presentation | In charge of piecing together the research, gantt chart, ERD, and project details/link to demo in the final presentation. Ensuring that all members are present in the presentation. | Ariel |
