@@ -5,12 +5,12 @@ var username = '', password = '';
 
 function doLogin()
 {
-    alert("We are here");
 	var login = document.getElementById("username").value;
-	var pass = document.getElementById("password").value;
+    var pass = document.getElementById("password").value;
+    var hash = md5(pass);
+    alert(hash);
 
     var jsonPayload = '{"login" : "' + login + '", "password" : "' + pass + '"}';
-    alert(jsonPayload);
 	var url = APIRoot + '/php/login' + fileExtension;
 	
 	var xhr = new XMLHttpRequest();
@@ -19,7 +19,6 @@ function doLogin()
 	try
 	{
         xhr.send(jsonPayload);
-        alert( xhr.responseText );
 		var jsonObject = JSON.parse( xhr.responseText );
 		userId = jsonObject.id;
 	

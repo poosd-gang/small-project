@@ -7,27 +7,30 @@
         $sqlpassword=trim(fread($passwordFile, filesize($passwordLocation)));
         fclose($passwordFile);
 
-	$usernameGiven=$inData["login"];
-	//Echo($usernameGiven);
-	$sql="SELECT * FROM users WHERE username='".$usernameGiven."'";
+	//$sql="SELECT * FROM users WHERE username='".$usernameGiven."'";
+	$sql="INSERT INTO contacts (user_id, first_name, last_name, phone, address, birthdate, corgo_pic_url) ".
+		"VALUES (?, ?, ?, ?, ?, ?, ?)";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
+
 	if ($conn->connect_error) {
 		returnWithError($conn->connect_error);
 		return;
 	}
-	$result=$conn->query($sql);
-	if ($result->num_rows > 0) {
-		$row=$result->fetch_assoc();
-		$username=$row["username"];
-		$userId=$row["user_id"];
-		$passwordHash=$row["password_hash"];
-		$conn->close();
-		returnWithInfo($userId, $username, $passwordHash);
-	}
-	else {
-		$conn->close();
-		returnWithError($sql);
-	}
+
+	$prepared=$conn->prepare($sql);
+	$prepared->bind_param("sssssss", $userId, $firstName, $lastName, $phone, $address, $birthdate, $corgoPicUrl);
+
+	$userId=$inData["user_id"];
+	$firstName=$inData["first_name"];
+	$lastName=$inData["last_name"];
+	$phone=$inData["phone"];
+	$address=$inData["address"];
+	$birthdate=$inData["birthdate"];
+	$corgoPicUrl=$inData["corgo_pic_url"];
+
+	$prepared->execute();
+	$conn->close();
+
 
 	function getRequestInfo() {
 		return json_decode(file_get_contents('php://input'), true);

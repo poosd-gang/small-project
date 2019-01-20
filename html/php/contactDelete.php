@@ -7,27 +7,24 @@
         $sqlpassword=trim(fread($passwordFile, filesize($passwordLocation)));
         fclose($passwordFile);
 
-	$usernameGiven=$inData["login"];
-	//Echo($usernameGiven);
-	$sql="SELECT * FROM users WHERE username='".$usernameGiven."'";
+
+	//$sql="SELECT * FROM users WHERE username='".$usernameGiven."'";
+	$sql="DELETE FROM contacts WHERE contact_id=?";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
+
 	if ($conn->connect_error) {
 		returnWithError($conn->connect_error);
 		return;
 	}
-	$result=$conn->query($sql);
-	if ($result->num_rows > 0) {
-		$row=$result->fetch_assoc();
-		$username=$row["username"];
-		$userId=$row["user_id"];
-		$passwordHash=$row["password_hash"];
-		$conn->close();
-		returnWithInfo($userId, $username, $passwordHash);
-	}
-	else {
-		$conn->close();
-		returnWithError($sql);
-	}
+
+	$prepared=$conn->prepare($sql);
+	$prepared->bind_param("s", $contactId);
+
+	$contactId=$inData["contact_id"];
+
+	$prepared->execute();
+	$conn->close();
+
 
 	function getRequestInfo() {
 		return json_decode(file_get_contents('php://input'), true);
