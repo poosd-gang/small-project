@@ -22,6 +22,7 @@ task | description | persons |
 | research | Interviewing each person who completes a section to find out why they chose the tech they did, how they did it, and what obstacles they faced. | Jordan |
 | presentation | In charge of piecing together the research, gantt chart, ERD, and project details/link to demo in the final presentation. Ensuring that all members are present in the presentation. | Ariel, Jordan |
 | pm | Organizing the project, role assignment, resolving conflicts, and gantt chart/timelining. | Chantale |
+| process planning | Creating UML diagram and listing project use cases. | Ariel |
 
 ## Project Rubric:
 
