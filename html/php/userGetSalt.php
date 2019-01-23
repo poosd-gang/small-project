@@ -8,7 +8,7 @@
         fclose($passwordFile);
 
 
-	$sql="SELECT * FROM users WHERE username=? and password_hash=?";
+	$sql="SELECT * FROM users WHERE username=?";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
 
 	if ($conn->connect_error) {
@@ -18,16 +18,15 @@
 
 
 	$prepared=$conn->prepare($sql);
-	$prepared->bind_param("ss", $username, $password_hash);
+	$prepared->bind_param("s", $username);
 
 	$username=$inData["username"];
-	$password_hash=$inData["password_hash"];
 
 	$prepared->execute();
 	$returned=$prepared->get_result();
 	$data=$returned->fetch_all();
 
-	returnWithInfo($data[0][0], $data[0][1], $data[0][2]);
+	returnArray($data);
 
 	function getRequestInfo() {
 		return json_decode(file_get_contents('php://input'), true);
@@ -47,8 +46,7 @@
 	function returnWithInfo( $id, $username, $password_hash )
 	{
  		$retValue = '{"user_id":' . $id . ',"username":"' . $username . '","password_hash":"' . $password_hash . '"}';
-		Echo($retValue);
-		//sendResultInfoAsJson( $retValue );
+		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnArray($array) {

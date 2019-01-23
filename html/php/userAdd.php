@@ -7,8 +7,8 @@
         $sqlpassword=trim(fread($passwordFile, filesize($passwordLocation)));
         fclose($passwordFile);
 
-
-	$sql="SELECT * FROM users WHERE username=? and password_hash=?";
+	$sql="INSERT INTO users (username, password_hash, password_salt) ".
+		"VALUES (?, ?, ?)";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
 
 	if ($conn->connect_error) {
@@ -16,18 +16,16 @@
 		return;
 	}
 
-
 	$prepared=$conn->prepare($sql);
-	$prepared->bind_param("ss", $username, $password_hash);
+	$prepared->bind_param("sss", $username, $passwordHash, $passwordSalt);
 
 	$username=$inData["username"];
-	$password_hash=$inData["password_hash"];
+	$passwordHash=$inData["password_hash"];
+	$passwordSalt=$inData["password_salt"];
 
 	$prepared->execute();
-	$returned=$prepared->get_result();
-	$data=$returned->fetch_all();
+	$conn->close();
 
-	returnWithInfo($data[0][0], $data[0][1], $data[0][2]);
 
 	function getRequestInfo() {
 		return json_decode(file_get_contents('php://input'), true);
@@ -47,29 +45,7 @@
 	function returnWithInfo( $id, $username, $password_hash )
 	{
  		$retValue = '{"user_id":' . $id . ',"username":"' . $username . '","password_hash":"' . $password_hash . '"}';
-		Echo($retValue);
-		//sendResultInfoAsJson( $retValue );
-	}
-
-	function returnArray($array) {
-		$retValue='[';
-		$length=sizeof($array);
-		$i=0;
-
-		while ($i<$length) {
-			$object=$array[$i];
-			$retValue=$retValue.$object[3];
-
-			if ($i+1<$length)
-				$retValue = $retValue.", ";
-
-			$i++;
-		}
-		$retValue=$retValue . ']';
-		Echo($retValue);
-
-		//sendResultInfoAsJson($retValue);
-
+		sendResultInfoAsJson( $retValue );
 	}
 
 ?>

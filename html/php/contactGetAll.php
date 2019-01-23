@@ -69,9 +69,10 @@
 			.', "first_name": "'.$object[2].'"'
 			.', "last_name": "'.$object[3].'"'
 			.', "phone": "'.$object[4].'"'
-			.', "address": "'.$object[5].'"'
-			.', "birthdate": "'.$object[6].'"'
-			.', "corgo_pic_url": "'.$object[7].'" }';
+			.', "email": "'.$object[5].'"'
+			.', "address": "'.$object[6].'"'
+			.', "birthdate": "'.$object[7].'"'
+			.', "corgo_pic_url": "'.$object[8].'" }';
 
 			if ($i+1<$length)
 				$retValue = $retValue.", ";

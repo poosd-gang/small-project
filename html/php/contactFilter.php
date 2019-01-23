@@ -7,8 +7,7 @@
         $sqlpassword=trim(fread($passwordFile, filesize($passwordLocation)));
         fclose($passwordFile);
 
-
-	$sql="SELECT * FROM users WHERE username=? and password_hash=?";
+	$sql="SELECT * FROM contacts WHERE user_id=? and ((first_name like ?) or (last_name like ?) or (phone like ?) or (email like ?) or (address like ?) or (birthdate like ?))";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
 
 	if ($conn->connect_error) {
@@ -16,18 +15,17 @@
 		return;
 	}
 
-
 	$prepared=$conn->prepare($sql);
-	$prepared->bind_param("ss", $username, $password_hash);
+	$prepared->bind_param("sssssss", $userId, $searchText, $searchText, $searchText, $searchText, $searchText, $searchText);
 
-	$username=$inData["username"];
-	$password_hash=$inData["password_hash"];
+	$userId=$inData["user_id"];
+	$searchText="%".$inData["search_text"]."%";
 
 	$prepared->execute();
 	$returned=$prepared->get_result();
 	$data=$returned->fetch_all();
 
-	returnWithInfo($data[0][0], $data[0][1], $data[0][2]);
+	returnArray($data);
 
 	function getRequestInfo() {
 		return json_decode(file_get_contents('php://input'), true);
@@ -47,18 +45,26 @@
 	function returnWithInfo( $id, $username, $password_hash )
 	{
  		$retValue = '{"user_id":' . $id . ',"username":"' . $username . '","password_hash":"' . $password_hash . '"}';
-		Echo($retValue);
-		//sendResultInfoAsJson( $retValue );
+		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnArray($array) {
 		$retValue='[';
 		$length=sizeof($array);
+		//Echo("Length: ".$length);
 		$i=0;
 
 		while ($i<$length) {
 			$object=$array[$i];
-			$retValue=$retValue.$object[3];
+			//Echo($object[0]);
+			$retValue=$retValue.'{"contact_id": '.$object[0].', "user_id": '.$object[1]
+			.', "first_name": "'.$object[2].'"'
+			.', "last_name": "'.$object[3].'"'
+			.', "phone": "'.$object[4].'"'
+			.', "email": "'.$object[5].'"'
+			.', "address": "'.$object[6].'"'
+			.', "birthdate": "'.$object[7].'"'
+			.', "corgo_pic_url": "'.$object[8].'" }';
 
 			if ($i+1<$length)
 				$retValue = $retValue.", ";

@@ -8,8 +8,8 @@
         fclose($passwordFile);
 
 	//$sql="SELECT * FROM users WHERE username='".$usernameGiven."'";
-	$sql="INSERT INTO contacts (user_id, first_name, last_name, phone, address, birthdate, corgo_pic_url) ".
-		"VALUES (?, ?, ?, ?, ?, ?, ?)";
+	$sql="INSERT INTO contacts (user_id, first_name, last_name, phone, email, address, birthdate, corgo_pic_url) ".
+		"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
 
 	if ($conn->connect_error) {
@@ -18,12 +18,13 @@
 	}
 
 	$prepared=$conn->prepare($sql);
-	$prepared->bind_param("sssssss", $userId, $firstName, $lastName, $phone, $address, $birthdate, $corgoPicUrl);
+	$prepared->bind_param("ssssssss", $userId, $firstName, $lastName, $phone, $email, $address, $birthdate, $corgoPicUrl);
 
 	$userId=$inData["user_id"];
 	$firstName=$inData["first_name"];
 	$lastName=$inData["last_name"];
 	$phone=$inData["phone"];
+	$email=$inData["email"];
 	$address=$inData["address"];
 	$birthdate=$inData["birthdate"];
 	$corgoPicUrl=$inData["corgo_pic_url"];

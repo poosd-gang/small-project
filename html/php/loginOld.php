@@ -7,27 +7,27 @@
         $sqlpassword=trim(fread($passwordFile, filesize($passwordLocation)));
         fclose($passwordFile);
 
-
-	$sql="SELECT * FROM users WHERE username=? and password_hash=?";
+	$usernameGiven=$inData["login"];
+	//Echo($usernameGiven);
+	$sql="SELECT * FROM users WHERE username='".$usernameGiven."'";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
-
 	if ($conn->connect_error) {
 		returnWithError($conn->connect_error);
 		return;
 	}
-
-
-	$prepared=$conn->prepare($sql);
-	$prepared->bind_param("ss", $username, $password_hash);
-
-	$username=$inData["username"];
-	$password_hash=$inData["password_hash"];
-
-	$prepared->execute();
-	$returned=$prepared->get_result();
-	$data=$returned->fetch_all();
-
-	returnWithInfo($data[0][0], $data[0][1], $data[0][2]);
+	$result=$conn->query($sql);
+	if ($result->num_rows > 0) {
+		$row=$result->fetch_assoc();
+		$username=$row["username"];
+		$userId=$row["user_id"];
+		$passwordHash=$row["password_hash"];
+		$conn->close();
+		returnWithInfo($userId, $username, $passwordHash);
+	}
+	else {
+		$conn->close();
+		returnWithError($sql);
+	}
 
 	function getRequestInfo() {
 		return json_decode(file_get_contents('php://input'), true);
@@ -47,29 +47,7 @@
 	function returnWithInfo( $id, $username, $password_hash )
 	{
  		$retValue = '{"user_id":' . $id . ',"username":"' . $username . '","password_hash":"' . $password_hash . '"}';
-		Echo($retValue);
-		//sendResultInfoAsJson( $retValue );
-	}
-
-	function returnArray($array) {
-		$retValue='[';
-		$length=sizeof($array);
-		$i=0;
-
-		while ($i<$length) {
-			$object=$array[$i];
-			$retValue=$retValue.$object[3];
-
-			if ($i+1<$length)
-				$retValue = $retValue.", ";
-
-			$i++;
-		}
-		$retValue=$retValue . ']';
-		Echo($retValue);
-
-		//sendResultInfoAsJson($retValue);
-
+		sendResultInfoAsJson( $retValue );
 	}
 
 ?>
