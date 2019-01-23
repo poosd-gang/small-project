@@ -1,18 +1,5 @@
 # Corgo Connect API
 
-## `POST /php/login.php`
-
-Logs in the user.
-
-### Sample Call
-
-```json
-{
-	"username": "example",
-	"password_hash" : "example"
-}
-```
-
 ---
 ## `POST /php/contactAdd.php`
 
@@ -78,12 +65,44 @@ Deletes the contact with the specified contact_id.
 ---
 ## `POST /php/contactGetAll.php`
 
-Deletes the contact with the specified contact_id.
+Gets all contacts that are owned by a given user.
 
 ### Sample Call
 
 ```json
 {
-  "contact_id": 6
+  "user_id": 1
+}
+```
+
+---
+## `POST /php/login.php`
+
+Gets the first user with the valid username/password_hash combination.
+
+### Sample Call
+
+```json
+{
+  "username": "root",
+  "password_hash": "qwerty"
+}
+```
+
+---
+## `POST /php/userAdd.php`
+
+Adds a user with the given username/password/salt. Assumes that the front end has already checked to make sure
+that there doesn't exist a user with this username yet by calling userGetSalt(username) and making sure that
+that returns an empty array. If two people simultaneously create users with the same username, then that's really too bad.
+Oh well...
+
+### Sample Call
+
+```json
+{
+  "username": "user123",
+  "password_hash": "somePasswordHash",
+  "password_salt": "saltysalt"
 }
 ```
