@@ -1,13 +1,23 @@
 @import url("//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css");
 
-body {
-  background: #DE6262;
+.logo {
+  background: #4BB08E;
+  	/* #F4C7B4 */
+}
+
+body{
+  background:#48D1CC;
 }
 
 .login-block{
     background: #DE6262;  /* fallback for old browsers */
-    background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */
-    background: linear-gradient(to bottom, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    /* background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */ */
+    /* background: linear-gradient(to bottom, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ */
+
+    /* Gradient "to bottom" fades top color to bottom color (so you want lighter on top) */
+    background: : -webkit-linear-gradient(to bottom, #4BB08E, #48D1CC);
+    background: linear-gradient(to bottom, #4BB08E, #48D1CC);
+
     float:left;
     width:100%;
     padding : 100px;
