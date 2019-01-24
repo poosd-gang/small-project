@@ -34,6 +34,11 @@ Searches through contacts based on the given filter text.
 }
 ```
 
+### Returns
+```json
+[{"contact_id": 1, "user_id": 1, "first_name": "corgi", "last_name": "corgoson", "phone": "4078230000", "email": "asdf@gmail.com", "address": "1600 Penn Ave", "birthdate": "2018-06-06", "corgo_pic_url": "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12225919/Pembroke-Welsh-Corgi-On-White-01.jpg" }]
+```
+
 ---
 ## `POST /php/userGetSalt.php`
 
@@ -47,6 +52,11 @@ users with the given username, then this call returns an empty array.
 {
   "username": "demo"
 }
+```
+
+### Returns
+```json
+["saltttty"]
 ```
 
 ---
@@ -73,6 +83,36 @@ Gets all contacts that are owned by a given user.
 {
   "user_id": 1
 }
+```
+
+### Returns
+
+```json
+
+[
+  {
+"contact_id": 1,
+"user_id": 1,
+"first_name": "corgi",
+"last_name": "corgoson",
+"phone": "4078230000",
+"email": "asdf@gmail.com",
+"address": "1600 Penn Ave",
+"birthdate": "2018-06-06",
+"corgo_pic_url": "https://s3.amazonaws.com/cdn-origin-etr.akc.org/wp-content/uploads/2017/11/12225919/Pembroke-Welsh-Corgi-On-White-01.jpg"
+},
+  {
+"contact_id": 2,
+"user_id": 1,
+"first_name": "newFirstName",
+"last_name": "newLastName",
+"phone": "123-456-7891",
+"email": "newEmail@gmail.com",
+"address": "newAddress",
+"birthdate": "Jan 1 1000",
+"corgo_pic_url": "http://blah.png"
+}
+],
 ```
 
 ---
@@ -107,6 +147,16 @@ Gets the first user with the valid username/password_hash combination.
   "username": "root",
   "password_hash": "qwerty"
 }
+```
+
+### Returns if unsucessful login:
+```json
+{"user_id":,"username":"","password_hash":""}
+```
+
+### Returns if successful login:
+```json
+{"user_id":7,"username":"root","password_hash":"qwerty"}
 ```
 
 ---
