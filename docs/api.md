@@ -76,6 +76,26 @@ Gets all contacts that are owned by a given user.
 ```
 
 ---
+## `POST /php/contactEdit.php`
+
+Updates the field of the contact with the given id
+
+### Sample Call
+
+```json
+{
+  "contact_id": 2,
+  "first_name": "newFirstName",
+  "last_name": "newLastName",
+  "phone": "123-456-7891",
+  "email": "newEmail@gmail.com",
+  "address": "newAddress",
+  "birthdate": "Jan 1 1000",
+  "corgo_pic_url": "http://blah.png"
+}
+```
+
+---
 ## `POST /php/login.php`
 
 Gets the first user with the valid username/password_hash combination.
@@ -106,3 +126,4 @@ Oh well...
   "password_salt": "saltysalt"
 }
 ```
+
