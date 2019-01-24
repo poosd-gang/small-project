@@ -9,8 +9,6 @@
 
 	<!-- Bootstrap Core Files -->
 	<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-	<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="main.css"/>
@@ -20,105 +18,66 @@
 	</title>
 </head>
 
-<!-- <script js>
-
-	var vm = new Vue({
-	el: '#app',
-	data () {
-		return {
-			banners:["logo.png","index.png","Capture.png"]10
-	var vm = new Vue({
-	el: '#app',
-	data () {
-		return {
-			banners:["logo.png","index.png","Capture.png"]10
-	}
-			banners:["logo.png","index.png","Capture.png"]10
-	});
-
-</script> -->
-
 <body>
 
-	<section class="logo">
-		<div class="container-fluid" style="background:transparent;">
-			<div class="row">
+	<!-- <section class="logo">
+		<div class="container-fluid">  -->
+			<!-- style="background:transparent;" -->
+			<!-- <div class="row">
 				<div class="col-md-4">
-					<img src="/img/corgo-transparent2.png">
+					<img src="/img/corgo-transparent2.png" class="img-fluid">
+				</div>
+				<div class="col-md-4 m-auto">
+					<img src="/img/logo-coral-transparent.png" class="img-fluid" alt="Responsive image">
 				</div>
 				<div class="col-md-4">
-					<img src="/img/logo-transparent.png" class="img-fluid" alt="Responsive image">
 				</div>
-				<div class="col-md-4">
-				</div>
-			</div><div class="container-fluid" style="background:transparent;">
+			</div>
 		</div>
-	</section>
+	</section> -->
 
 	<section class="login-block">
     <div class="container">
 
-	<div class="row">
-		<div class="col-md-4 login-sec">
-		    <h2 class="text-center">Login</h2>
-		    <form class="login-form">
+		<div class="row">
+			<div class="col-md-4 login-sec">
+			    <h2 class="text-center">Corgo Connect</h2>
+			    <form class="login-form">
 
-  	<div class="form-group">
-    	<label for="exampleInputEmail1" class="text-uppercase">Username</label>
-    	<input type="text" class="form-control" placeholder="">
-  	</div>
+			  	<div class="form-group">
+			    	<label for="exampleInputEmail1" class="text-uppercase">Username</label>
+			    	<input type="text" class="form-control" placeholder="">
+			  	</div>
 
-  	<div class="form-group">
-    	<label for="exampleInputPassword1" class="text-uppercase">Password</label>
-    	<input type="password" class="form-control" placeholder="">
-  	</div>
+			  	<div class="form-group">
+			    	<label for="exampleInputPassword1" class="text-uppercase">Password</label>
+			    	<input type="password" class="form-control" placeholder="">
+			  	</div>
 
-    <div class="form-check">
-    	<label class="form-check-label">
-      	<input type="checkbox" class="form-check-input">
-      	<small>Remember Me</small>
-    	</label>
-    	<button type="submit" class="btn btn-login float-right" onclick="doLogin();">Submit</button>
+			    <div class="form-check">
+			    	<button type="submit" class="btn btn-login float-right" onclick="doLogin();">Login</button>
+						<button type="submit" class="btn btn-login float-left">Register</button>
 
-			<!-- Not sure if this goes here or elsewhere -->
-			<p id="success" style="visibility: hidden">Login successful</p>
-			<p id="fail" style="visibility: hidden">Login failed</p>
+						<!-- Not sure if this goes here or elsewhere -->
+						<p id="success" style="visibility: hidden">Login successful</p>
+						<p id="fail" style="visibility: hidden">Login failed</p>
+					</div>
+
+					</form>
+			</div>
+
+			<div class="col-md-8 banner-sec">
+	      <img-fluid src="/img/corgi1.jpg" alt="Responsive image">
+	        <div class="banner-text">
+	          <h2>This is Heaven</h2>
+	        </div>
+			</div>
 		</div>
-
-				</form>
 		</div>
+	</section>
 
-		<div class="col-md-8 banner-sec">
-      <img-fluid src="/img/corgi1.jpg" alt="Responsive image">
-        <div class="banner-text">
-          <h2>This is Heaven</h2>
-        </div>
-		</div>
-	</div>
-</section>
-
-	<!-- <div align="center">
-		<br>
-		<image src="http://vignette2.wikia.nocookie.net/cartoonfatness/images/1/12/Corgi.png/revision/latest?cb=20140708111033" width="100px"></image>
-		<h1>Corgo Connect</h1>
-		<br>
-	<div>
-		Username:
-		<input id="username"></input>
-	</div>
-	<br>
-	<div>
-		Password Hash:
-		<input id="password"></input>
-	</div>
-	<br>
-	<div>
-		<input type="button" value="Login" onclick="doLogin();"></input>
-	</div>
-
-	<p id="success" style="visibility: hidden">Login successful</p>
-	<p id="fail" style="visibility: hidden">Login failed</p>
-	</div> -->
+	<!-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
 
 </body>
 
