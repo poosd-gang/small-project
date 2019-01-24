@@ -56,7 +56,7 @@
 
 		while ($i<$length) {
 			$object=$array[$i];
-			$retValue=$retValue.$object[3];
+			$retValue=$retValue.'"'.$object[3].'"';
 
 			if ($i+1<$length)
 				$retValue = $retValue.", ";
