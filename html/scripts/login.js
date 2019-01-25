@@ -12,7 +12,7 @@ function doLogin()
 
     var jsonPayload = '{"login" : "' + login + '", "password" : "' + pass + '"}';
 	var url = APIRoot + '/php/login' + fileExtension;
-	
+
 	var xhr = new XMLHttpRequest();
 	xhr.open("POST", url, false);
 	xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -21,11 +21,11 @@ function doLogin()
         xhr.send(jsonPayload);
 		var jsonObject = JSON.parse( xhr.responseText );
 		userId = jsonObject.id;
-	
-		
+
+
 		username = jsonObject.username;
         password = jsonObject.password;
-        
+
         if (username == "")
         {
             document.getElementById("success").style.visibility = 'hidden';
@@ -36,8 +36,8 @@ function doLogin()
             document.getElementById("success").style.visibility = 'visible';
             document.getElementById("fail").style.visibility = 'hidden';
         }
-		
-		
+
+
 	}
 	catch(err)
 	{
@@ -45,6 +45,3 @@ function doLogin()
 	}
 
 }
-
-
-
