@@ -6,17 +6,17 @@
 }
 
 body{
-  background:#48D1CC;
+  background:#1F72B8;
 }
 
 .login-block{
     background: #DE6262;  /* fallback for old browsers */
-    /* background: -webkit-linear-gradient(to bottom, #FFB88C, #DE6262);  /* Chrome 10-25, Safari 5.1-6 */ */
-    /* background: linear-gradient(to bottom, #FFB88C, #DE6262); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ */
 
-    /* Gradient "to bottom" fades top color to bottom color (so you want lighter on top) */
-    background: : -webkit-linear-gradient(to bottom, #4BB08E, #48D1CC);
-    background: linear-gradient(to bottom, #4BB08E, #48D1CC);
+    background: : -webkit-linear-gradient(to bottom, #9DC1DC, #1F72B8); /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, #9DC1DC, #1F72B8); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+    /* #5892C2 dark */
+    /* #9DC1DC light */
 
     float:left;
     width:100%;
@@ -82,6 +82,10 @@ body{
   background: #DE6262;
   color:#fff;
   font-weight:600;
+}
+
+.modalTitle{
+    color:#fff;
 }
 
 .banner-text{
