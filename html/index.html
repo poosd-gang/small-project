@@ -5,10 +5,19 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
+	<link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
+	<link rel="manifest" href="/site.webmanifest">
+	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+	<meta name="msapplication-TileColor" content="#00aba9">
+	<meta name="theme-color" content="#ffffff">
+
+  <script src="scripts/md5.min.js"></script>
 	<script src="scripts/login.js"></script>
 
 	<!-- Bootstrap Core Files -->
-	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 
@@ -21,22 +30,6 @@
 </head>
 
 <body>
-
-	<!-- <section class="logo">
-		<div class="container-fluid">  -->
-			<!-- style="background:transparent;" -->
-			<!-- <div class="row">
-				<div class="col-md-4">
-					<img src="/img/corgo-transparent2.png" class="img-fluid">
-				</div>
-				<div class="col-md-4 m-auto">
-					<img src="/img/logo-coral-transparent.png" class="img-fluid" alt="Responsive image">
-				</div>
-				<div class="col-md-4">
-				</div>
-			</div>
-		</div>
-	</section> -->
 
 	<section class="login-block">
     <div class="container">
@@ -58,18 +51,21 @@
 
 			    <div class="form-check">
 						<!-- <input id="submit" onclick="doLogin()" type="button" value="Submit"> -->
-			    	<button type="submit" class="btn btn-login float-right" onclick="doLogin()">Login</button>
+			    	<button type="submit" class="btn btn-login float-right"><a href="/home.html">Login</a></button>
 						<button type="button" class="btn btn-login float-left" data-toggle="modal" data-target="#exampleModalCenter">Register</button>
 
-						<!-- Modal -->
+						<!-- Create Accoun Modal -->
 						<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h5 class="modal-title" id="exampleModalLongTitle">Register</h5>
-						        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+						        <h5 class="col-12 modal-title text-center" id="modalTitle">
+											<img src="/img/corgo-transparent2.png" style="width:60px">
+												Register
+											</h5>
+						      <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 						          <span aria-hidden="true">&times;</span>
-						        </button>
+						      </button> -->
 						      </div>
 						      <div class="modal-body">
 										<div class="form-group">
@@ -101,7 +97,7 @@
 			<div class="col-md-8 banner-sec">
 	      <img-fluid src="/img/corgi1.jpg" alt="Responsive image">
 	        <div class="banner-text">
-	          <h2>This is Heaven</h2>
+	          <h2>This is Epic</h2>
 	        </div>
 			</div>
 		</div>
