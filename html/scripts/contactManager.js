@@ -354,7 +354,7 @@ function createUser(userSalts)
 
     if (userSalts.length > 0)
     {
-        document.getElementById("userAddErrorAlert").show();
+        document.getElementById("userAddErrorAlert").style.display = "block";
         return;
     }
 
@@ -393,7 +393,7 @@ function loginUser(userSalts)
 
     if (userSalts.length === 0)
     {
-        document.getElementById("userLoginErrorAlert").show();
+        document.getElementById("userLoginErrorAlert").style.display = "block";
         return;
     }
     salt = userSalts[0];
