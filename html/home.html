@@ -26,7 +26,8 @@
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/scroller/1.5.1/js/dataTables.scroller.min.js"></script>
 
-
+	<script src="scripts/md5.min.js"></script>
+	<script src="scripts/contactManager.js"></script>
 
 	<title>
 	Welcome to Corgo Connect!
@@ -49,7 +50,7 @@
 	<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarNav">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active">
-				<button type="button" class="btn btn-signout btn-sm gradient"><a class="nav-link" href="/index.html">Sign out</a></button>
+				<button type="button" class="btn btn-signout btn-sm gradient" onclick="signOut()">Sign out</button>
       </li>
 		</ul>
 	</div>
@@ -97,7 +98,7 @@
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
-							<h5 class="modal-title" id="addContactForm">Add Contact</h5>
+							<h5 class="modal-title" id="addContactForm">Create New Contact</h5>
 							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 								<span aria-hidden="true">&times;</span>
 							</button>
@@ -136,7 +137,7 @@
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-edit" id="contactAddSuccessAlert">Save changes</button>
+							<button type="button" class="btn btn-edit" onclick="submitCreateContact()">Create Contact</button>
 						</div>
 					</div>
 				</div>
@@ -203,7 +204,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-edit" id="contactDeleteSuccess">Confirm</button>
+                                    <button type="button" class="btn btn-edit" onclick="deleteContact()">Delete</button>
                                 </div>
                             </div>
                         </div>
@@ -211,7 +212,7 @@
 
                     <button type="button" class="btn btn-edit float-right" data-toggle="modal" data-target="#editContact">Edit</button>
 
-										<div class="modal fade" id="addContact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+										<div class="modal fade" id="editContact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog" role="document">
 												<div class="modal-content">
 													<div class="modal-header">
@@ -254,7 +255,7 @@
 													</div>
 													<div class="modal-footer">
 														<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-														<button type="button" class="btn btn-edit" id="contactAddSuccessAlert">Save changes</button>
+														<button type="button" class="btn btn-edit" onclick="validateEditContactInput(event)">Save changes</button>
 													</div>
 												</div>
 											</div>
