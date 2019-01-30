@@ -7,7 +7,7 @@ body{
 .navbar-custom{
   /* Cream: #FEB58A;
   Coral: #DE6262*/
-  background: #FEB58A;  /* fallback for old browsers */
+  background: #DE6262;  /* fallback for old browsers */
 
   /* background: : -webkit-linear-gradient(to bottom, #DE6262, #FEB58A); /* Chrome 10-25, Safari 5.1-6 */ */
   /* background: linear-gradient(to bottom, #DE6262, #FEB58A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ */

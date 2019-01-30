@@ -31,7 +31,7 @@
 
 <body>
 
-	<section class="login-block">
+	<section class="login-block pb-5">
     <div class="container">
 
 		<div class="row">
@@ -54,7 +54,7 @@
 			    	<button type="submit" class="btn btn-login float-right"><a href="/home.html">Login</a></button>
 						<button type="button" class="btn btn-login float-left" data-toggle="modal" data-target="#exampleModalCenter">Register</button>
 
-						<!-- Create Accoun Modal -->
+						<!-- Create Account Modal -->
 						<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered" role="document">
 						    <div class="modal-content">
@@ -103,6 +103,40 @@
 		</div>
 		</div>
 	</section>
+
+	<div class="container-fluid footer">
+	<!-- Footer -->
+	<footer class="page-footer font-small blue">
+
+		<script>
+		// Corgi solo swimmer scroll direction switcher
+		$(document).ready(function () {
+				$('#direction').change(function () {
+						$('#ltrmarquee').toggle()
+						$('#rtlmarquee').toggle()
+				})
+		})
+		</script>
+
+		<div id="ltrmarquee">
+				<marquee behavior="scroll" direction="right" speed="11">
+						<img src="https://corgiorgy.com/corgiswimflip.gif" width="150px" />
+				</marquee>
+		</div>
+		<div id="rtlmarquee" style="display:none;">
+				<marquee behavior="scroll" direction="left" speed="11">
+						<img src="https://corgiorgy.com/corgiswimflipflip.gif" width="150px" />
+				</marquee>
+		</div>
+
+	  <!-- Copyright -->
+	  <div class="footer-copyright text-center py-3">© 2019 Copyright: Corgo Connect
+	  </div>
+	  <!-- Copyright -->
+
+	</footer>
+
+	</div>
 
 </body>
 
