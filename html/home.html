@@ -26,7 +26,7 @@
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/scroller/1.5.1/js/dataTables.scroller.min.js"></script>
 
-	<script src="starter.js"></script>
+
 
 	<title>
 	Welcome to Corgo Connect!
@@ -66,25 +66,34 @@
         scrollY:        200,
         scrollCollapse: true,
         scroller:       true
+        // paging: false
     } );
 } );
 </script>
 
 <section class="app-main">
-<!-- div section for first row -->
-<div class="container-fluid">
 
-	<!-- First row after Navbar
-	Button to Create Contact goes here, right aligned -->
-	<!-- <div class="row row1">
-		<div class="col-md-8">
-		</div>
-		<div class="col-md-4 add-contact">
+<!-- div section for main box -->
+<section class="search-main">
+<div class="container">
 
-			<button type="button" class="btn btn-edit add-contact-btn" data-toggle="modal" data-target="#exampleModal">Add Contact</button>
+	<!-- Table in 1st col, Contact info in 2nd col -->
+    <div class="row">
+        <div class="col-md-4 search-title">
+            <h2 class="text-left">Search</h2>
+        </div>
+        <div class="col-md-4">
+            <div class="input-group mt-5">
+                <input type="text" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="basic-addon2">
+                <div class="input-group-append">
+                    <span class="input-group-text" id="basic-addon2"><i class="fas fa-md fa-search"></i></span>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <button type="button" class="btn btn-edit float-right mt-5 mr-4" data-toggle="modal" data-target="#addContact">Add Contact</button>
 
-
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal fade" id="addContact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 				<div class="modal-dialog" role="document">
 					<div class="modal-content">
 						<div class="modal-header">
@@ -104,28 +113,11 @@
 				</div>
 			</div>
 
+        </div>
+    </div>
 
-		</div>
-	</div> -->
-</div>
-
-<!-- div section for main box -->
-<section class="search-main">
-<div class="container">
-
-	<!-- Second row after Navbar
-	Table in 1st col, Contact info in 2nd col -->
 	<div class="row">
 		<div class="col-md-8 datatable">
-			<h2 class="text-left">Search</h2>
-
-            <!-- Trish's search -->
-            <div class="input-group mb-3">
-                <input type="text" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="basic-addon2">
-                <div class="input-group-append">
-                    <span class="input-group-text" id="basic-addon2"><i class="fas fa-md fa-search"></i></span>
-                </div>
-            </div>
 
 			<!-- Table Start -->
 			<table id="table_id" class="display nowrap" style="width:100%">
@@ -141,28 +133,58 @@
 
 		<!-- Contact Information gets shown here -->
 		<div class="col-md-4 contact-info">
-			<button type="button" class="btn btn-edit float-right" data-toggle="modal" data-target="#exampleModal">Add Contact</button>
+
+            <div class="card border-light pt-0">
+                <img class="card-img-top img-fluid rounded-circle" src="img/generic-man-profile.jpg">
+                <div class="card-body text-info">
+                    <form>
+                        <div class="form-group row inputItem">
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticName" value="First Last">
+                            </div>
+                        </div>
+                        <div class="form-group row inputItem">
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticPhone" value="555-5555">
+                            </div>
+                        </div>
+                        <div class="form-group row inputItem">
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                            </div>
+                        </div>
+                        <div class="form-group row inputItem">
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticAddress" value="123 Wallaby Way, Sydney">
+                            </div>
+                        </div>
+                        <div class="form-group row inputItem">
+                            <div class="col-sm-10">
+                                <input type="text" readonly class="form-control-plaintext" id="staticBirthday" value="12/12/12">
+                            </div>
+                        </div>
+                    </form>
+                    <button type="button" class="btn btn-edit float-right ml-3" data-toggle="modal" data-target="#deleteContact">Delete</button>
+
+                    <div class="modal fade bd-example-modal-sm" id="deleteContact" tabindex="-1" role="dialog" aria-labelledby="mySmallModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <h5>Delete Contact?</h5>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                    <button type="button" class="btn btn-edit">Confirm</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-edit float-right" data-toggle="modal" data-target="#editContact">Edit</button>
+                </div>
+            </div>
 
 
-			<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-				<div class="modal-dialog" role="document">
-					<div class="modal-content">
-						<div class="modal-header">
-							<h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
-							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</div>
-						<div class="modal-body">
-							...
-						</div>
-						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-edit">Save changes</button>
-						</div>
-					</div>
-				</div>
-			</div>
 		</div>
 	</div>
 </div>
