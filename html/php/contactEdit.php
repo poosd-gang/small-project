@@ -7,8 +7,9 @@
         $sqlpassword=trim(fread($passwordFile, filesize($passwordLocation)));
         fclose($passwordFile);
 
-
-	$sql="SELECT * FROM users WHERE username=?";
+	//$sql="SELECT * FROM users WHERE username='".$usernameGiven."'";
+	$sql="UPDATE contacts set first_name=?, last_name=?, phone=?, email=?, address=?, birthdate=?, corgo_pic_url=? ".
+		"WHERE contact_id=?;";
 	$conn= new mysqli("localhost", "root", $sqlpassword, "poosdsmall");
 
 	if ($conn->connect_error) {
@@ -16,17 +17,21 @@
 		return;
 	}
 
-
 	$prepared=$conn->prepare($sql);
-	$prepared->bind_param("s", $username);
+	$prepared->bind_param("ssssssss", $firstName, $lastName, $phone, $email, $address, $birthdate, $corgoPicUrl, $contactId);
 
-	$username=$inData["username"];
+	$firstName=$inData["first_name"];
+	$lastName=$inData["last_name"];
+	$phone=$inData["phone"];
+	$email=$inData["email"];
+	$address=$inData["address"];
+	$birthdate=$inData["birthdate"];
+	$corgoPicUrl=$inData["corgo_pic_url"];
+	$contactId=$inData["contact_id"];
 
 	$prepared->execute();
-	$returned=$prepared->get_result();
-	$data=$returned->fetch_all();
+	$conn->close();
 
-	returnArray($data);
 
 	function getRequestInfo() {
 		return json_decode(file_get_contents('php://input'), true);
@@ -47,27 +52,6 @@
 	{
  		$retValue = '{"user_id":' . $id . ',"username":"' . $username . '","password_hash":"' . $password_hash . '"}';
 		sendResultInfoAsJson( $retValue );
-	}
-
-	function returnArray($array) {
-		$retValue='[';
-		$length=sizeof($array);
-		$i=0;
-
-		while ($i<$length) {
-			$object=$array[$i];
-			$retValue=$retValue.'"'.$object[3].'"';
-
-			if ($i+1<$length)
-				$retValue = $retValue.", ";
-
-			$i++;
-		}
-		$retValue=$retValue . ']';
-		Echo($retValue);
-
-		//sendResultInfoAsJson($retValue);
-
 	}
 
 ?>
