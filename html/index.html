@@ -13,8 +13,8 @@
 	<meta name="msapplication-TileColor" content="#00aba9">
 	<meta name="theme-color" content="#ffffff">
 
-  <script src="scripts/md5.min.js"></script>
-	<script src="scripts/login.js"></script>
+	<script src="scripts/md5.min.js"></script>
+	<script src="scripts/contactManager.js"></script>
 
 	<!-- Bootstrap Core Files -->
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -31,7 +31,7 @@
 
 <body>
 
-	<section class="login-block">
+	<section class="login-block pb-5">
     <div class="container">
 
 		<div class="row">
@@ -40,46 +40,43 @@
 			    <form class="login-form">
 
 			  	<div class="form-group">
-			    	<label for="exampleInputEmail1" class="text-uppercase">Username</label>
+			    	<label for="Username" class="text-uppercase">Username</label>
 			    	<input id="username" type="text" class="form-control" placeholder="">
 			  	</div>
 
 			  	<div class="form-group">
-			    	<label for="exampleInputPassword1" class="text-uppercase">Password</label>
+			    	<label for="Password" class="text-uppercase">Password</label>
 			    	<input id="password" type="password" class="form-control" placeholder="">
 			  	</div>
 
 			    <div class="form-check">
 						<!-- <input id="submit" onclick="doLogin()" type="button" value="Submit"> -->
-			    	<button type="submit" class="btn btn-login float-right"><a href="/home.html">Login</a></button>
-						<button type="button" class="btn btn-login float-left" data-toggle="modal" data-target="#exampleModalCenter">Register</button>
+			    	<button type="submit" class="btn btn-login float-right" onclick="submitLoginUser()">Login</button>
+						<button type="button" class="btn btn-login float-left" data-toggle="modal" data-target="#registerNewUser">Register</button>
 
-						<!-- Create Accoun Modal -->
-						<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+						<!-- Create Account Modal -->
+						<div class="modal fade" id="registerNewUser" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
 						  <div class="modal-dialog modal-dialog-centered" role="document">
 						    <div class="modal-content">
 						      <div class="modal-header">
-						        <h5 class="col-12 modal-title text-center" id="modalTitle">
+						        <h5 class="col-12 modal-title text-center" id="registerModalTitle">
 											<img src="/img/corgo-transparent2.png" style="width:60px">
 												Register
 											</h5>
-						      <!-- <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-						          <span aria-hidden="true">&times;</span>
-						      </button> -->
 						      </div>
 						      <div class="modal-body">
 										<div class="form-group">
-								    	<label for="exampleInputEmail1" class="text-uppercase">Username</label>
-								    	<input type="text" class="form-control" placeholder="">
+								    	<label for="Username" class="text-uppercase">Username</label>
+								    	<input type="text" class="form-control" placeholder="" id="newUserName">
 								  	</div>
 								  	<div class="form-group">
-								    	<label for="exampleInputPassword1" class="text-uppercase">Password</label>
-								    	<input type="password" class="form-control" placeholder="">
+								    	<label for="Password" class="text-uppercase">Password</label>
+								    	<input type="password" class="form-control" placeholder="" id="newPassword">
 								  	</div>
 						      </div>
 						      <div class="modal-footer">
 						        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-						        <button type="button" class="btn btn-login">Create Account</button>
+						        <button type="button" class="btn btn-login" onclick="submitCreateUser(event)">Create Account</button>
 						      </div>
 						    </div>
 						  </div>
@@ -103,6 +100,40 @@
 		</div>
 		</div>
 	</section>
+
+	<div class="container-fluid footer">
+	<!-- Footer -->
+	<footer class="page-footer font-small blue">
+
+		<script>
+		// Corgi solo swimmer scroll direction switcher
+		$(document).ready(function () {
+				$('#direction').change(function () {
+						$('#ltrmarquee').toggle()
+						$('#rtlmarquee').toggle()
+				})
+		})
+		</script>
+
+		<div id="ltrmarquee">
+				<marquee behavior="scroll" direction="right" speed="11">
+						<img src="https://corgiorgy.com/corgiswimflip.gif" width="150px" />
+				</marquee>
+		</div>
+		<div id="rtlmarquee" style="display:none;">
+				<marquee behavior="scroll" direction="left" speed="11">
+						<img src="https://corgiorgy.com/corgiswimflipflip.gif" width="150px" />
+				</marquee>
+		</div>
+
+	  <!-- Copyright -->
+	  <div class="footer-copyright text-center py-3">© 2019 Copyright: Corgo Connect
+	  </div>
+	  <!-- Copyright -->
+
+	</footer>
+
+	</div>
 
 </body>
 

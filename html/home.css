@@ -7,10 +7,10 @@ body{
 .navbar-custom{
   /* Cream: #FEB58A;
   Coral: #DE6262*/
-  background: #FEB58A;  /* fallback for old browsers */
+  background: #DE6262;  /* fallback for old browsers */
 
-  background: : -webkit-linear-gradient(to bottom, #DE6262, #FEB58A); /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to bottom, #DE6262, #FEB58A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  /* background: : -webkit-linear-gradient(to bottom, #DE6262, #FEB58A); /* Chrome 10-25, Safari 5.1-6 */ */
+  /* background: linear-gradient(to bottom, #DE6262, #FEB58A); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */ */
 }
 
 .navbar-custom .navbar-nav .nav-link {
@@ -62,7 +62,7 @@ body{
   padding:0;
 }
 
-.datatable h2{
+.search-title h2{
   margin-top: 30px;
   margin-bottom:30px;
   margin-left: 30px;
@@ -71,7 +71,7 @@ body{
   color: #DE6262;
 }
 
-.datatable h2:after{
+.search-title h2:after{
   content:" ";
   width:100px;
   height:5px;
@@ -85,6 +85,10 @@ body{
 .contact-info{
   padding: 50px 30px;
   position:relative;
+}
+
+.card{
+    box-shadow:7px 7px 0px rgba(0,0,0,0.1);
 }
 
 .contact-info .copy-text{
@@ -103,9 +107,17 @@ body{
   color:#E36262;
 }
 
+.card-img-top{
+    width: 30%;
+    height: 30%;
+    margin: auto;
+    margin-top: 30px;
+}
 
-
-
+.inputItem{
+    margin-top: 0.10px;
+    margin-bottom: 0.10px;
+}
 
 .btn {
     padding: 10px 20px;
@@ -122,6 +134,10 @@ body{
     background: #0099cc;
     color: #ffffff;
     font-weight:600;
+    /* padding  : .10rem .2rem;
+    font-size  : .875rem;
+    line-height  : .5;
+    border-radius : .2rem; */
 }
 
 .btn-signout:hover, .btn-signout:focus, .btn-signout:active, .btn-signout.active, .open > .dropdown-toggle.btn-signout {
@@ -160,11 +176,6 @@ body{
     background: linear-gradient(to bottom,  #267c99 50%,#007299 50%); /* W3C */
     filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#267c99', endColorstr='#007299',GradientType=0 ); /* IE6-9 */
 }
-
-
-
-
-
 
 .btn-edit{
   background: #DE6262;
