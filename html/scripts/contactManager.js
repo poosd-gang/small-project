@@ -301,7 +301,7 @@ function deleteContact()
 function fetchContactInfo()
 {
     var table = $('#table_id').DataTable();
-     
+
     $('#table_id tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
         individualContact = data;
