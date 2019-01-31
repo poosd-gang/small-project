@@ -7,10 +7,10 @@ var password = '';
 var corgiGlobalUrl = '';
 var individualContact = null;
 
-$(document).ready( function() {
-    if (userId === 0)
-        window.location = APIRoot + '/index.html';
-});
+// $(document).ready( function() {
+//     if (userId === 0)
+//         window.location = APIRoot + '/index.html';
+// });
 
 function fetchCorgiImageURL(callback)
 {
