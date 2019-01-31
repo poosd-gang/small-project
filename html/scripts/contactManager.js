@@ -25,16 +25,16 @@ function fetchCorgiImageURL(callback)
             if (this.readyState == 4 && this.status == 200) {
                 var jsonObject = JSON.parse(xhr.responseText);
                 corgiImageUrl += jsonObject.response.url;
-                callback(corgiImageUrl)
+                callback(corgiImageUrl);
             }
           };
           xhr.send();
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
-    return corgiImageUrl;
 }
 
 function addContact(jsonSendObj)
@@ -49,13 +49,15 @@ function addContact(jsonSendObj)
         xhr.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200)
             {
-                document.getElementById("contactAddSuccessAlert").style.display = "block";
+                alert("success add");
+                // document.getElementById("contactAddSuccessAlert").style.display = "block";
             }
         };
         xhr.send(jsonPayload);
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
 }
@@ -77,7 +79,8 @@ function validateAddContactInput(corgiImageURL)
 
     if (fieldsFilled === false)
     {
-        document.getElementById("invalidInputAlert").style.display = "block";
+        alert("inv input");
+        // document.getElementById("invalidInputAlert").style.display = "block";
         return;
     }
 
@@ -112,7 +115,8 @@ function editContact(jsonSendObj)
         {
             if (this.readyState == 4 && this.status == 200)
             {
-                document.getElementById("contactAddSuccessAlert").style.display = "block";
+                alert("success edit");
+                // document.getElementById("contactEditSuccessAlert").style.display = "block";
                 window.location.reload();
             }
         };
@@ -120,6 +124,7 @@ function editContact(jsonSendObj)
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
 }
@@ -143,11 +148,12 @@ function validateEditContactInput(event)
 
     if (fieldsFilled === false)
     {
-        document.getElementById("invalidEditAlert").style.display = "block";
+        alert("inv edit");
+        // document.getElementById("invalidEditAlert").style.display = "block";
         return;
     }
 
-    jsonSendObject.user_id = userId;
+    jsonSendObject.contact_id = individualContact.contact_id;
     jsonSendObject.first_name = firstNameValue;
     jsonSendObject.last_name = lastNameValue;
     jsonSendObject.phone = phoneValue;
@@ -240,6 +246,7 @@ function searchContacts()
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
 }
@@ -267,7 +274,7 @@ function fetchAllContacts()
     }
     catch(err)
     {
-        return 'err';
+        alert(err.message);
     }
 }
 
@@ -286,7 +293,8 @@ function deleteContact()
         {
             if (this.readyState == 4 && this.status == 200)
             {
-                document.getElementById("contactDeleteSuccess");
+                alert("delete success");
+                // document.getElementById("contactDeleteSuccess");
                 document.getElementById("contactInfo").style.display = "none";
             }
         };
@@ -294,6 +302,7 @@ function deleteContact()
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
 }
@@ -301,7 +310,7 @@ function deleteContact()
 function fetchContactInfo()
 {
     var table = $('#table_id').DataTable();
-
+     
     $('#table_id tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
         individualContact = data;
@@ -339,6 +348,7 @@ function fetchUserSalts(userName, callback)
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
 }
@@ -354,7 +364,8 @@ function createUser(userSalts)
 
     if (userSalts.length > 0)
     {
-        document.getElementById("userAddErrorAlert").style.display = "block";
+        alert("user add error");
+        // document.getElementById("userAddErrorAlert").style.display = "block";
         return;
     }
 
@@ -381,6 +392,7 @@ function createUser(userSalts)
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
 }
@@ -393,7 +405,8 @@ function loginUser(userSalts)
 
     if (userSalts.length === 0)
     {
-        document.getElementById("userLoginErrorAlert").style.display = "block";
+        alert("user login bad");
+        // document.getElementById("userLoginErrorAlert").style.display = "block";
         return;
     }
     salt = userSalts[0];
@@ -425,7 +438,7 @@ function loginUser(userSalts)
                 {
                     username = jsonObject.username;
                     userId = jsonObject.user_id;
-                    password = jsonObject.password;
+                    password = jsonObject.password_hash;
                     window.location(APIROOT + '/home.html')
                 }
                 //enable login button here
@@ -436,6 +449,7 @@ function loginUser(userSalts)
     }
     catch(err)
     {
+        alert(err.message);
         return 'err';
     }
 }
@@ -453,7 +467,7 @@ function submitLoginUser()
 
 function signOut()
 {
-    userName = '';
+    username = '';
     userId = 0;
     window.location(APIRoot);
 }
