@@ -1,5 +1,7 @@
 var userInfo = new Object();
-var APIRoot = "http://104.248.122.148";
+// var APIRoot = "http://104.248.122.148";
+var APIRoot = "https://cors-anywhere.herokuapp.com/http://104.248.122.148";
+var falseRoot = "http://127.0.0.1:3000"
 var fileExtension = ".php";
 var userId = 0;
 var username = '';
@@ -8,40 +10,18 @@ var corgiGlobalUrl = '';
 var individualContact = null;
 
 $(document).ready(function() {
-    individualContact = new Object();
-    individualContact.contact_id = 1;
-    userId = 1;
-    username = 'corgo';
-    $('#table_id').DataTable( {
-        //ajax:           "data/sample.txt",
-        columnDefs: [
-            {
-                "data" : function ( row, type, val, meta ) {
-                    var dataVal = '';
-                    if (row.first_name != '' && row.last_name != '')
-                        dataVal = row.first_name + ' ' + row.last_name;
-
-                    else if (row.first_name != '')
-                        dataVal = row.first_name;
-                    else if (row.last_name != '')
-                        dataVal = row.last_name;
-                    else if (row.phone != '')
-                        dataVal = row.phone;
-                    else if (row.email != '')
-                        dataVal = row.email;
-                    else if (row.address != '')
-                        dataVal = row.address;
-                    else if (row.birthdate != '')
-                        dataVal = row.birthdate;
-
-                    return dataVal;
-                  }
-            }
-        ],
-        deferRender:    true,
-        searching:      false
-    } );
+    // individualContact = new Object();
+    // individualContact.contact_id = 1;
 } );
+
+function setUserDisplay()
+{
+    var userInfo = window.name.split(",");
+    username = userInfo[0];
+    userId = userInfo[1];
+    console.log(username);
+    document.getElementById("userDisplay").innerHTML = username;
+}
 
 function fetchCorgiImageURL(callback)
 {
@@ -249,6 +229,12 @@ function searchContacts()
     }
 }
 
+function initTable(jsonArray)
+{
+    console.log(jsonArray);
+    return jsonArray;
+}
+
 function fetchAllContacts()
 {
     var jsonSendObject = new Object();
@@ -265,7 +251,7 @@ function fetchAllContacts()
             if (this.readyState == 4 && this.status == 200)
             {
                 var jsonArray = JSON.parse(xhr.responseText);
-                updateTable(jsonArray);
+                initTable(jsonArray);
             }
         };
         xhr.send(jsonPayload);
@@ -326,13 +312,10 @@ function fetchContactInfo()
 function fetchUserSalts(userName, callback)
 {
     var url = APIRoot + '/php/userGetSalt' + fileExtension;
-    const proxyurl = "https://cors-anywhere.herokuapp.com/";
 
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    // xhr.withCredentials = true;
-    console.log(url);
 
     var jsonSendObject = new Object();
     jsonSendObject.username = userName;
@@ -359,8 +342,10 @@ function fetchUserSalts(userName, callback)
 function createUser(userSalts)
 {
     var url = APIRoot + '/php/userAdd' + fileExtension;
-    var newUserName = document.getElementById("newUserName");
-    var newPassword = document.getElementById("newPassword");
+    var newUserName = document.getElementById("newUserName").value;
+    console.log(newUserName);
+    var newPassword = document.getElementById("newPassword").value;
+    console.log(newPassword);
     var salt = Math.random().toString(36).substring(0, 5) + Math.random().toString(36).substring(5, 10);
     newPassword += salt;
     var passwordHash = md5(newPassword);
@@ -387,7 +372,7 @@ function createUser(userSalts)
         {
             if (this.readyState == 4 && this.status == 200)
             {
-                var jsonObject = JSON.parse(xhr.responseText);
+                //var jsonObject = JSON.parse(xhr.responseText);
                 //toggle modal
             }
           };
@@ -403,8 +388,8 @@ function createUser(userSalts)
 function loginUser(userSalts)
 {
     var url = APIRoot + '/php/login' + fileExtension;
-    var userName = document.getElementById("username");
-    var password = document.getElementById("password");
+    var userName = document.getElementById("username").value;
+    var passWord = document.getElementById("password").value;
 
     if (userSalts.length === 0)
     {
@@ -413,8 +398,8 @@ function loginUser(userSalts)
         return;
     }
     salt = userSalts[0];
-    newPassword += salt;
-    var passwordHash = md5(password);
+    passWord += salt;
+    var passwordHash = md5(passWord);
 
     var jsonSendObj = new Object();
     jsonSendObj.username = userName;
@@ -432,6 +417,7 @@ function loginUser(userSalts)
         {
             if (this.readyState == 4 && this.status == 200)
             {
+                console.log(xhr.responseText);
                 var jsonObject = JSON.parse(xhr.responseText);
                 if (jsonObject.username === '')
                 {
@@ -440,9 +426,12 @@ function loginUser(userSalts)
                 else if (jsonObject.username !== '')
                 {
                     username = jsonObject.username;
+                    console.log(jsonObject.username);
                     userId = jsonObject.user_id;
                     password = jsonObject.password_hash;
-                    window.location(APIROOT + '/home.html')
+                    window.name = username + "," + userId;
+                    console.log(window.name);
+                    window.location = falseRoot + '/home.html';
                 }
                 //enable login button here
                 // document.getElementById("loginButton").disabled = false;
@@ -460,18 +449,18 @@ function loginUser(userSalts)
 function submitCreateUser(event)
 {
     event.preventDefault();
-    fetchUserSalts(document.getElementById("newUserName"), createUser);
+    fetchUserSalts(document.getElementById("newUserName").value, createUser);
 }
 
 function submitLoginUser(event)
 {
     event.preventDefault();
-    fetchUserSalts(document.getElementById("username"), loginUser);
+    fetchUserSalts(document.getElementById("username").value, loginUser);
 }
 
 function signOut()
 {
     username = '';
     userId = 0;
-    window.location=APIRoot;
+    window.location=falseRoot + '/index.html';
 }

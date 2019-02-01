@@ -15,6 +15,7 @@
 
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
 	<!-- Custom CSS -->
 	<link href="home.css" rel="stylesheet">
@@ -22,7 +23,6 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/scroller/1.5.1/js/dataTables.scroller.min.js"></script>
 
@@ -40,8 +40,8 @@
 <nav class="navbar navbar-custom sticky-top navbar-expand-md navbar-dark shadow-lg p-3 rounded">
 	<a class="navbar-brand" href="#">
 		<img src="img/corgo-transparent-sm.png" width="40" height="40">
-		<!-- <h5>Welcome, </h5> -->
 	</a>
+	<h2 class="text-white">CorgoConnect</h2>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -50,8 +50,11 @@
 	<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarNav">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active">
+				<span id="userDisplay">space</span>
+      		</li>
+			<li class="nav-item active">
 				<button type="button" class="btn btn-signout btn-sm gradient" onclick="signOut()">Sign out</button>
-      </li>
+      		</li>
 		</ul>
 	</div>
 </nav>
@@ -60,7 +63,22 @@
 <!-- Initialize datatable with scrolling pagination -->
 <script>
 	$(document).ready(function() {
-		fetchAllContacts();
+		setUserDisplay();
+		var dataArray = fetchAllContacts();
+		$('#table_id').DataTable( {
+	        //ajax:           "data/sample.txt",
+			"data": dataArray,
+	        "columns": [
+	            {
+	                "data" : "first_name"
+	            },
+				{
+				   "data" : "last_name"
+			   },
+	        ],
+	        // deferRender:    true,
+	        "searching":      false
+	    } );
     // $('#table_id').DataTable( {
     //     ajax:           "data/sample.txt",
     //     "searching": false,
@@ -154,7 +172,6 @@
 			<table id="table_id" class="display nowrap" style="width:100%">
 		    <thead>
 		        <tr>
-					<th>ID</th>
 		            <th>First Name</th>
 		            <th>Last Name</th>
 		        </tr>
