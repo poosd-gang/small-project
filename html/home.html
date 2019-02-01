@@ -60,15 +60,16 @@
 <!-- Initialize datatable with scrolling pagination -->
 <script>
 	$(document).ready(function() {
-    $('#table_id').DataTable( {
-        ajax:           "data/sample.txt",
-        "searching": false,
-        deferRender:    true,
-        scrollY:        200,
-        scrollCollapse: true,
-        scroller:       true
-        // paging: false
-    } );
+		fetchAllContacts();
+    // $('#table_id').DataTable( {
+    //     ajax:           "data/sample.txt",
+    //     "searching": false,
+    //     deferRender:    true,
+    //     scrollY:        200,
+    //     scrollCollapse: true,
+    //     scroller:       true
+    //     // paging: false
+    // } );
 } );
 </script>
 
@@ -108,11 +109,11 @@
 								<div class="form-row">
 							    <div class="form-group col-md-6">
 							      <label for="inputEmail4">First Name</label>
-							      <input type="email" class="form-control" id="firstNameNew" placeholder="First Name">
+							      <input type="text" class="form-control" id="firstNameNew" placeholder="First Name">
 							    </div>
 							    <div class="form-group col-md-6">
 							      <label for="inputPassword4">Last Name</label>
-							      <input type="password" class="form-control" id="lastNameNew" placeholder="Last Name">
+							      <input type="text" class="form-control" id="lastNameNew" placeholder="Last Name">
 							    </div>
 							  </div>
 								<div class="form-group">
@@ -130,14 +131,14 @@
 							  <div class="form-row">
 							    <div class="form-group col-md-6">
 							      <label for="inputBirthday">Birthday</label>
-							      <input type="text" class="form-control" id="birthdateNew">
+							      <input type="date" class="form-control" id="birthdateNew">
 							    </div>
 							  </div>
 							</form>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-edit" onclick="submitCreateContact()">Create Contact</button>
+							<button type="button" class="btn btn-edit" onclick="submitCreateContact(event)">Create Contact</button>
 						</div>
 					</div>
 				</div>
@@ -162,35 +163,35 @@
 		</div>
 
 		<!-- Contact Information gets shown here -->
-		<div class="col-md-4 contact-info">
+		<div class="col-md-4 contact-info" id="contactInfo">
 
             <div class="card border-light pt-0">
-                <img class="card-img-top img-fluid rounded-circle" src="img/generic-man-profile.jpg">
+                <img class="card-img-top img-fluid rounded-circle" id="corgoPicView" src="img/generic-man-profile.jpg">
                 <div class="card-body text-info">
                     <form>
                         <div class="form-group row inputItem">
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticName" value="P. Sherman">
+                                <input type="text" readonly class="form-control-plaintext" id="nameView" value="P. Sherman">
                             </div>
                         </div>
                         <div class="form-group row inputItem">
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticPhone" value="555-5555">
+                                <input type="text" readonly class="form-control-plaintext" id="phoneView" value="555-5555">
                             </div>
                         </div>
                         <div class="form-group row inputItem">
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                                <input type="text" readonly class="form-control-plaintext" id="emailView" value="email@example.com">
                             </div>
                         </div>
                         <div class="form-group row inputItem">
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticAddress" value="42 Wallaby Way, Sydney">
+                                <input type="text" readonly class="form-control-plaintext" id="addressView" value="42 Wallaby Way, Sydney">
                             </div>
                         </div>
                         <div class="form-group row inputItem">
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticBirthday" value="12/12/12">
+                                <input type="text" readonly class="form-control-plaintext" id="birthdateView" value="12/12/12">
                             </div>
                         </div>
                     </form>
@@ -204,7 +205,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-edit" onclick="deleteContact()">Delete</button>
+                                    <button type="button" class="btn btn-edit" onclick="deleteContact(event)">Delete</button>
                                 </div>
                             </div>
                         </div>

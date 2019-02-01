@@ -7,10 +7,41 @@ var password = '';
 var corgiGlobalUrl = '';
 var individualContact = null;
 
-// $(document).ready( function() {
-//     if (userId === 0)
-//         window.location = APIRoot + '/index.html';
-// });
+$(document).ready(function() {
+    individualContact = new Object();
+    individualContact.contact_id = 1;
+    userId = 1;
+    username = 'corgo';
+    $('#table_id').DataTable( {
+        //ajax:           "data/sample.txt",
+        columnDefs: [
+            {
+                "data" : function ( row, type, val, meta ) {
+                    var dataVal = '';
+                    if (row.first_name != '' && row.last_name != '')
+                        dataVal = row.first_name + ' ' + row.last_name;
+
+                    else if (row.first_name != '')
+                        dataVal = row.first_name;
+                    else if (row.last_name != '')
+                        dataVal = row.last_name;
+                    else if (row.phone != '')
+                        dataVal = row.phone;
+                    else if (row.email != '')
+                        dataVal = row.email;
+                    else if (row.address != '')
+                        dataVal = row.address;
+                    else if (row.birthdate != '')
+                        dataVal = row.birthdate;
+
+                    return dataVal;
+                  }
+            }
+        ],
+        deferRender:    true,
+        searching:      false
+    } );
+} );
 
 function fetchCorgiImageURL(callback)
 {
@@ -74,7 +105,7 @@ function validateAddContactInput(corgiImageURL)
     var birthdateValue = document.getElementById("birthdateNew").value;
 
     var fieldsFilled = false;
-    if (firstNameValue.length() > 0 || lastNameValue.length() > 0 || phoneValue.length() > 0 || addressValue.length() > 0 || birthdateValue.length() > 0)
+    if (firstNameValue.length > 0 || lastNameValue.length > 0 || phoneValue.length > 0 || addressValue.length > 0 || birthdateValue.length > 0)
         fieldsFilled = true;
 
     if (fieldsFilled === false)
@@ -83,6 +114,7 @@ function validateAddContactInput(corgiImageURL)
         // document.getElementById("invalidInputAlert").style.display = "block";
         return;
     }
+    var jsonSendObject = new Object();
 
     jsonSendObject.user_id = userId;
     jsonSendObject.first_name = firstNameValue;
@@ -104,7 +136,7 @@ function submitCreateContact(event)
 
 function editContact(jsonSendObj)
 {
-    var url = APIRoot + '/php/contactAdd' + fileExtension;
+    var url = APIRoot + '/php/contactEdit' + fileExtension;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
@@ -143,7 +175,7 @@ function validateEditContactInput(event)
     var birthdateValue = document.getElementById("birthdateEdit").value;
 
     var fieldsFilled = false;
-    if (firstNameValue.length() > 0 || lastNameValue.length() > 0 || phoneValue.length() > 0 || addressValue.length() > 0 || birthdateValue.length() > 0)
+    if (firstNameValue.length > 0 || lastNameValue.length > 0 || phoneValue.length > 0 || addressValue.length > 0 || birthdateValue.length > 0)
         fieldsFilled = true;
 
     if (fieldsFilled === false)
@@ -152,7 +184,7 @@ function validateEditContactInput(event)
         // document.getElementById("invalidEditAlert").style.display = "block";
         return;
     }
-
+    var jsonSendObject = new Object();
     jsonSendObject.contact_id = individualContact.contact_id;
     jsonSendObject.first_name = firstNameValue;
     jsonSendObject.last_name = lastNameValue;
@@ -180,40 +212,6 @@ function setCarousel()
 function updateTable(dataArray)
 {
     // This needs to be in the HTML file script instead of the current datatable call
-    // $(document).ready(function() {
-    //     $('#table_id').DataTable( {
-    //         data:           dataArray,
-    //         columnDefs: [
-    //             {
-    //                 "data" : function ( row, type, val, meta ) {
-    //                     var dataVal = '';
-    //                     if (row.first_name != '' && row.last_name != '')
-    //                         dataVal = row.first_name + ' ' + row.last_name;
-
-    //                     else if (row.first_name != '')
-    //                         dataVal = row.first_name;
-    //                     else if (row.last_name != '')
-    //                         dataVal = row.last_name;
-    //                     else if (row.phone != '')
-    //                         dataVal = row.phone;
-    //                     else if (row.email != '')
-    //                         dataVal = row.email;
-    //                     else if (row.address != '')
-    //                         dataVal = row.address;
-    //                     else if (row.birthdate != '')
-    //                         dataVal = row.birthdate;
-
-    //                     return dataVal;
-    //                   }
-    //             }
-    //         ],
-    //         deferRender:    true,
-    //         searching:      false,
-    //         scrollY:        200,
-    //         scrollCollapse: true,
-    //         scroller:       true
-    //     } );
-    // } );
 
     // Changing data here
     var table = $('#table_id').DataTable();
@@ -224,14 +222,14 @@ function updateTable(dataArray)
 
 function searchContacts()
 {
-    var jsonSendObj = new Object();
+    var jsonSendObject = new Object();
     jsonSendObject.user_id = userId;
-    jsonSendObj.search_text = document.getElementById("searchContactsInput");
+    jsonSendObject.search_text = document.getElementById("searchContactsInput");
     var url = APIRoot + '/php/contactFilter' + fileExtension;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    var jsonPayload = JSON.stringify(jsonSendObj);
+    var jsonPayload = JSON.stringify(jsonSendObject);
     try
     {
         xhr.onreadystatechange = function()
@@ -253,13 +251,13 @@ function searchContacts()
 
 function fetchAllContacts()
 {
-    var jsonSendObj = new Object();
+    var jsonSendObject = new Object();
     jsonSendObject.user_id = userId;
     var url = APIRoot + '/php/contactGetAll' + fileExtension;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    var jsonPayload = JSON.stringify(jsonSendObj);
+    var jsonPayload = JSON.stringify(jsonSendObject);
     try
     {
         xhr.onreadystatechange = function()
@@ -278,15 +276,16 @@ function fetchAllContacts()
     }
 }
 
-function deleteContact()
+function deleteContact(event)
 {
-    var jsonSendObj = new Object();
+    event.preventDefault();
+    var jsonSendObject = new Object();
     jsonSendObject.contact_id = individualContact.contact_id;
     var url = APIRoot + '/php/contactDelete' + fileExtension;
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    var jsonPayload = JSON.stringify(jsonSendObj);
+    var jsonPayload = JSON.stringify(jsonSendObject);
     try
     {
         xhr.onreadystatechange = function()
@@ -310,17 +309,16 @@ function deleteContact()
 function fetchContactInfo()
 {
     var table = $('#table_id').DataTable();
-     
+
     $('#table_id tbody').on('click', 'tr', function () {
         var data = table.row( this ).data();
         individualContact = data;
-        document.getElementById("firstNameView").innerHTML = data.first_name;
-        document.getElementById("lastNameView").innerHTML = data.last_name;
-        document.getElementById("phoneView").innerHTML = data.phone;
-        document.getElementById("emailView").innerHTML = data.email;
-        document.getElementById("addressView").innerHTML = data.address;
-        document.getElementById("birthdateView").innerHTML = data.birthdate;
-        document.getElementById("corgoPic").src = data.corgo_pic_url;
+        document.getElementById("nameView").value = data.first_name + " " + data.last_name;
+        document.getElementById("phoneView").value = data.phone;
+        document.getElementById("emailView").value = data.email;
+        document.getElementById("addressView").value = data.address;
+        document.getElementById("birthdateView").value = data.birthdate;
+        document.getElementById("corgoPicView").src = data.corgo_pic_url;
         document.getElementById("contactInfo").style.display = "block";
     } );
 }
@@ -328,12 +326,17 @@ function fetchContactInfo()
 function fetchUserSalts(userName, callback)
 {
     var url = APIRoot + '/php/userGetSalt' + fileExtension;
+    const proxyurl = "https://cors-anywhere.herokuapp.com/";
+
     var xhr = new XMLHttpRequest();
     xhr.open("POST", url, true);
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
-    var jsonSendObj = new Object();
-    jsonSendObj.username = userName;
-    var jsonPayload = JSON.stringify(jsonSendObj);
+    // xhr.withCredentials = true;
+    console.log(url);
+
+    var jsonSendObject = new Object();
+    jsonSendObject.username = userName;
+    var jsonPayload = JSON.stringify(jsonSendObject);
     try
     {
         xhr.onreadystatechange = function()
@@ -460,8 +463,9 @@ function submitCreateUser(event)
     fetchUserSalts(document.getElementById("newUserName"), createUser);
 }
 
-function submitLoginUser()
+function submitLoginUser(event)
 {
+    event.preventDefault();
     fetchUserSalts(document.getElementById("username"), loginUser);
 }
 
@@ -469,5 +473,5 @@ function signOut()
 {
     username = '';
     userId = 0;
-    window.location(APIRoot);
+    window.location=APIRoot;
 }
