@@ -1,8 +1,8 @@
-var APIRoot = "http://104.248.122.148/php";
-var webRoot = "http://104.248.122.148";
+// var APIRoot = "http://104.248.122.148/php";
+// var webRoot = "http://104.248.122.148";
 // Testing on local: comment the two lines above and uncomment the two lines below
-// var APIRoot = "https://cors-anywhere.herokuapp.com/http://104.248.122.148/php";
-// var webRoot = "http://127.0.0.1:3000";
+var APIRoot = "https://cors-anywhere.herokuapp.com/http://104.248.122.148/php";
+var webRoot = "http://127.0.0.1:3000";
 var fileExtension = ".php";
 var userInfo = new Object();
 var userId = 0;
@@ -63,13 +63,13 @@ function addContact(jsonSendObj)
         xhr.onreadystatechange = function() {
             if (this.readyState == 4 && this.status == 200)
             {
-                alert("success add");
+                $('.alert').hide();
                 $("#addContact").modal("hide");
                 if (document.getElementById("searchContactsInput").value.length != 0)
                     searchContacts();
                 else
                     fetchAllContacts('update');
-                // document.getElementById("contactAddSuccessAlert").style.display = "block";
+                $("#contactAddSuccessAlert").show();
             }
         };
         xhr.send(jsonPayload);
@@ -93,13 +93,13 @@ function validateAddContactInput(corgiImageURL)
     var birthdateValue = document.getElementById("birthdateNew").value.trim();
 
     var fieldsFilled = false;
-    if (firstNameValue.length > 0 || lastNameValue.length > 0 || phoneValue.length > 0 || addressValue.length > 0 || birthdateValue.length > 0)
+    if (firstNameValue.length > 0 || lastNameValue.length > 0)
         fieldsFilled = true;
 
     if (fieldsFilled === false)
     {
-        alert("inv input");
-        // document.getElementById("invalidInputAlert").style.display = "block";
+        $('.alert').hide();
+        $("#invalidAddContactAlert").show();
         return;
     }
     var jsonSendObject = new Object();
@@ -144,14 +144,14 @@ function editContact(jsonSendObj)
         {
             if (this.readyState == 4 && this.status == 200)
             {
-                alert("success edit");
-                // document.getElementById("contactEditSuccessAlert").style.display = "block";
+                $('.alert').hide();
                 fetchContactInfo(jsonSendObj);
                 $("#editContact").modal("hide");
                 if (document.getElementById("searchContactsInput").value.trim().length != 0)
                     searchContacts();
                 else
                     fetchAllContacts('update');
+                $("#contactEditSuccessAlert").show();
             }
         };
         xhr.send(jsonPayload);
@@ -175,13 +175,13 @@ function validateEditContactInput(event)
     var birthdateValue = document.getElementById("birthdateEdit").value.trim();
 
     var fieldsFilled = false;
-    if (firstNameValue.length > 0 || lastNameValue.length > 0 || phoneValue.length > 0 || addressValue.length > 0 || birthdateValue.length > 0)
+    if (firstNameValue.length > 0 || lastNameValue.length > 0)
         fieldsFilled = true;
 
     if (fieldsFilled === false)
     {
-        alert("inv edit");
-        // document.getElementById("invalidEditAlert").style.display = "block";
+        $('.alert').hide();
+        $("#invalidEditContactAlert").show();
         return;
     }
 
@@ -302,14 +302,14 @@ function deleteContact(event)
         {
             if (this.readyState == 4 && this.status == 200)
             {
-                alert("delete success");
-                // document.getElementById("contactDeleteSuccess");
+                $('.alert').hide();
                 document.getElementById("contactInfo").style.display = "none";
                 $("#deleteContact").modal("hide");
                 if (document.getElementById("searchContactsInput").value.length != 0)
                     searchContacts();
                 else
                     fetchAllContacts('update');
+                $("#contactDeleteSuccessAlert").show();
             }
         };
         xhr.send(jsonPayload);
@@ -374,8 +374,8 @@ function createUser(userSalts)
 
     if (userSalts.length > 0)
     {
-        alert("user add error");
-        // document.getElementById("userAddErrorAlert").style.display = "block";
+        $('.alert').hide();
+        $("#invalidCreateUserAlert").show();
         return;
     }
 
@@ -396,6 +396,9 @@ function createUser(userSalts)
             {
                 //var jsonObject = JSON.parse(xhr.responseText);
                 //toggle modal
+                $('.alert').hide();
+                $("#registerNewUser").modal("hide");
+                $("#createUserSuccessAlert").show();
             }
           };
           xhr.send(jsonPayload);
@@ -415,8 +418,8 @@ function loginUser(userSalts)
 
     if (userSalts.length === 0)
     {
-        alert("user login bad");
-        // document.getElementById("userLoginErrorAlert").style.display = "block";
+        $('.alert').hide();
+        $("#invalidLoginAlert").show();
         return;
     }
     salt = userSalts[0];
@@ -442,7 +445,8 @@ function loginUser(userSalts)
                 var jsonObject = JSON.parse(xhr.responseText);
                 if (jsonObject.username === '')
                 {
-                    alert('Username/password combination incorrect. Please try again.');
+                    $('.alert').hide();
+                    $("#invalidLoginAlert").show();
                 }
                 else if (jsonObject.username !== '')
                 {

@@ -34,6 +34,7 @@
 	<!-- Initialize datatable and functionality-->
 	<script>
 		$(document).ready(function() {
+			$('.alert').hide();
 			setUserDisplay();
 			fetchAllContacts('create');
 
@@ -113,6 +114,12 @@
 							</button>
 						</div>
 						<div class="modal-body">
+							<div class="alert alert-danger alert-dismissable" id="invalidAddContactAlert" role="alert">
+								At least one name field must be filled out.
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    			<span aria-hidden="true">&times;</span>
+					  			</button>
+							</div>
 							<form>
 								<div class="form-row">
 							    <div class="form-group col-md-6">
@@ -154,10 +161,30 @@
 
         </div>
     </div>
+	<div class="row d-flex align-items-center">
+		<div class="ml-3 alert alert-success alert-dismissable" id="contactAddSuccessAlert" role="alert" >
+			New contact successfully created!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+  			</button>
+		</div>
+		<div class="ml-3 alert alert-success alert-dismissable" id="contactDeleteSuccessAlert" role="alert">
+			Contact successfully deleted!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+  			</button>
+		</div>
+		<div class="ml-3 alert alert-success alert-dismissable" id="contactEditSuccessAlert" role="alert">
+			Contact successfully edited!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+  			</button>
+		</div>
+	</div>
 
 	<div class="row">
-		<div class="col-md-7 datatable">
-			<div class="ml-3">
+		<div class="col-lg-7 datatable">
+			<div class="ml-3 mr-3">
 				<!-- Table Start -->
 				<table id="table_id" class="display nowrap table-hover" style="width:100%">
 			    <thead>
@@ -171,40 +198,50 @@
 		</div>
 
 		<!-- Contact Information gets shown here -->
-		<div class="col-md-5 contact-info" id="contactInfo" style="display: none;">
+		<div class="col-lg-5 contact-info" id="contactInfo" style="display: none;">
 
             <div class="card border-light bg-light pt-0">
-                <img class="card-img-top img-fluid rounded-circle" id="corgoPicView" src="img/generic-man-profile.jpg">
+                <img class="card-img-top img-fluid rounded-circle d-block" id="corgoPicView" src="img/generic-man-profile.jpg">
                 <div class="card-body text-info">
                     <form class="form-horizontal">
-                        <div class="form-group row inputItem align-middle">
-							<label class="control-label text-nowrap col-sm-2" for="inputPassword4">Name</label>
+                        <div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Name</label>
+							</div>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="nameView" value="P. Sherman">
+                                <input type="text" readonly class="form-control-plaintext ml-3" id="nameView" value="P. Sherman">
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Phone</label>
+							</div>
                             <div class="col-sm-10">
-								<label for="inputPassword4">Phone</label>
-                                <input type="phone" readonly class="form-control-plaintext" id="phoneView" value="555-5555">
+                                <input type="phone" readonly class="form-control-plaintext ml-3" id="phoneView" value="555-5555">
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Email</label>
+							</div>
                             <div class="col-sm-10">
-								<label for="inputPassword4">Email</label>
-                                <input type="email" readonly class="form-control-plaintext" id="emailView" value="email@example.com">
+                                <input type="email" readonly class="form-control-plaintext ml-3" id="emailView" value="email@example.com">
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Address</label>
+							</div>
                             <div class="col-sm-10">
-								<label for="inputPassword4">Address</label>
-                                <input type="text" readonly class="form-control-plaintext" id="addressView" value="42 Wallaby Way, Sydney">
+                                <input type="text" readonly class="form-control-plaintext  ml-3" id="addressView" value="42 Wallaby Way, Sydney">
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Birthday</label>
+							</div>
                             <div class="col-sm-10">
-								<label for="inputPassword4">Birthday</label>
-                                <input type="text" readonly class="form-control-plaintext" id="birthdateView" value="12/12/12">
+                                <input type="text" readonly class="form-control-plaintext ml-3" id="birthdateView" value="12/12/12">
                             </div>
                         </div>
                     </form>
@@ -236,6 +273,12 @@
 														</button>
 													</div>
 													<div class="modal-body">
+														<div class="alert alert-danger alert-dismissable" id="invalidEditContactAlert" role="alert">
+															At least one name field must be filled out.
+															<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												    			<span aria-hidden="true">&times;</span>
+												  			</button>
+														</div>
 														<form>
 															<div class="form-row">
 														    <div class="form-group col-md-6">
