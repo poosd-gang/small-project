@@ -1,8 +1,8 @@
-// var APIRoot = "http://104.248.122.148/php";
-// var webRoot = "http://104.248.122.148";
+var APIRoot = "http://104.248.122.148/php";
+var webRoot = "http://104.248.122.148";
 // Testing on local: comment the two lines above and uncomment the two lines below
-var APIRoot = "https://cors-anywhere.herokuapp.com/http://104.248.122.148/php";
-var webRoot = "http://127.0.0.1:3000";
+// var APIRoot = "https://cors-anywhere.herokuapp.com/http://104.248.122.148/php";
+// var webRoot = "http://127.0.0.1:3000";
 var fileExtension = ".php";
 var userInfo = new Object();
 var userId = 0;
