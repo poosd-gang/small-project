@@ -42,7 +42,11 @@
 				var table = $('#table_id').DataTable();
 	            var data = table.row( this ).data();
 				fetchContactInfo(data);
-	        } );
+	        });
+
+			$('#addContact').on('hide.bs.modal', function (e) {
+		        clearAddContactModal();
+		    });
 		});
 	</script>
 
@@ -58,7 +62,7 @@
 	<a class="navbar-brand" href="#">
 		<img src="img/corgo-transparent-sm.png" width="40" height="40">
 	</a>
-	<h2 class="text-white">CorgoConnect</h2>
+	<h2 class="text-white"><strong>CorgoConnect</strong></h2>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -82,7 +86,7 @@
 
 <!-- div section for main box -->
 <section class="search-main">
-<div class="container">
+<div class="container pb-3">
 
 	<!-- Table in 1st col, Contact info in 2nd col -->
     <div class="row">
@@ -233,7 +237,7 @@
 								<label class="control-label text-nowrap" for="inputPassword4">Address</label>
 							</div>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext  ml-3" id="addressView" value="42 Wallaby Way, Sydney">
+                                <textarea readonly class="form-control-plaintext ml-3" id="addressView" value="42 Wallaby Way, Sydney"></textarea>
                             </div>
                         </div>
 						<div class="form-group row inputItem">

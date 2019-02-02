@@ -70,6 +70,7 @@ function addContact(jsonSendObj)
                 else
                     fetchAllContacts('update');
                 $("#contactAddSuccessAlert").show();
+                clearAddContactModal();
             }
         };
         xhr.send(jsonPayload);
@@ -122,7 +123,18 @@ function submitCreateContact(event)
     fetchCorgiImageURL(validateAddContactInput);
 }
 
-function fillEditContactData() {
+function clearAddContactModal()
+{
+    document.getElementById("firstNameNew").value = '';
+    document.getElementById("lastNameNew").value = '';
+    document.getElementById("phoneNew").value = '';
+    document.getElementById("emailNew").value = '';
+    document.getElementById("addressNew").value = '';
+    document.getElementById("birthdateNew").value = '';
+}
+
+function fillEditContactData()
+{
     document.getElementById("firstNameEdit").value = individualContact.first_name;
     document.getElementById("lastNameEdit").value = individualContact.last_name;
     document.getElementById("phoneEdit").value = individualContact.phone;

@@ -127,6 +127,11 @@ body{
     margin-bottom: 0px;
 }
 
+#addressView {
+  resize: none;
+  overflow:hidden;
+}
+
 .btn {
     padding: 10px 20px;
     border: 0 none;
