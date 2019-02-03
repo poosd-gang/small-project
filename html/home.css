@@ -45,7 +45,8 @@ body{
 
     float:left;
     width:100%;
-    padding : 100px;
+    padding: 100px;
+    padding-top: 50px;
 }
 
 .container{
@@ -114,9 +115,21 @@ body{
     margin-top: 30px;
 }
 
+.control-label {
+    padding-top: 6px;
+}
+.alert {
+    display: none;
+}
+
 .inputItem{
-    margin-top: 0.10px;
-    margin-bottom: 0.10px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+}
+
+#addressView {
+  resize: none;
+  overflow:hidden;
 }
 
 .btn {

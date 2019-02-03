@@ -3,18 +3,20 @@
 <head>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"> <!-- For Mobile -->
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 
 	<link rel="apple-touch-icon" sizes="180x180" href="favicon_package_v0.16/apple-touch-icon.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="favicon_package_v0.16/favicon-32x32.png">
 	<link rel="icon" type="image/png" sizes="16x16" href="favicon_package_v0.16/favicon-16x16.png">
 	<link rel="manifest" href="/site.webmanifest">
 	<link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+
 	<meta name="msapplication-TileColor" content="#00aba9">
 	<meta name="theme-color" content="#ffffff">
 
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 
 	<!-- Custom CSS -->
 	<link href="home.css" rel="stylesheet">
@@ -22,15 +24,34 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
-	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.css">
 	<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.js"></script>
 	<script type="text/javascript" src="https://cdn.datatables.net/scroller/1.5.1/js/dataTables.scroller.min.js"></script>
 
+	<!-- Local JS -->
 	<script src="scripts/md5.min.js"></script>
 	<script src="scripts/contactManager.js"></script>
 
+	<!-- Initialize datatable and functionality-->
+	<script>
+		$(document).ready(function() {
+			$('.alert').hide();
+			setUserDisplay();
+			fetchAllContacts('create');
+
+			$('#table_id').on('click', 'tr', function () {
+				var table = $('#table_id').DataTable();
+	            var data = table.row( this ).data();
+				fetchContactInfo(data);
+	        });
+
+			$('#addContact').on('hide.bs.modal', function (e) {
+		        clearAddContactModal();
+		    });
+		});
+	</script>
+
 	<title>
-	Welcome to Corgo Connect!
+		Welcome to Corgo Connect!
 	</title>
 </head>
 
@@ -40,8 +61,8 @@
 <nav class="navbar navbar-custom sticky-top navbar-expand-md navbar-dark shadow-lg p-3 rounded">
 	<a class="navbar-brand" href="#">
 		<img src="img/corgo-transparent-sm.png" width="40" height="40">
-		<!-- <h5>Welcome, </h5> -->
 	</a>
+	<h2 class="text-white"><strong>CorgoConnect</strong></h2>
 
 	<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
 		<span class="navbar-toggler-icon"></span>
@@ -50,33 +71,22 @@
 	<div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2" id="navbarNav">
 		<ul class="navbar-nav ml-auto">
 			<li class="nav-item active">
+				<span class="text-white" id="userDisplay">User failed to load</span>
+      		</li>
+			<li class="nav-item active ml-3">
+
 				<button type="button" class="btn btn-signout btn-sm gradient" onclick="signOut()">Sign out</button>
-      </li>
+      		</li>
 		</ul>
 	</div>
 </nav>
 <!-- Navbar End -->
 
-<!-- Initialize datatable with scrolling pagination -->
-<script>
-	$(document).ready(function() {
-    $('#table_id').DataTable( {
-        ajax:           "data/sample.txt",
-        "searching": false,
-        deferRender:    true,
-        scrollY:        200,
-        scrollCollapse: true,
-        scroller:       true
-        // paging: false
-    } );
-} );
-</script>
-
 <section class="app-main pb-5">
 
 <!-- div section for main box -->
 <section class="search-main">
-<div class="container">
+<div class="container pb-3">
 
 	<!-- Table in 1st col, Contact info in 2nd col -->
     <div class="row">
@@ -87,7 +97,11 @@
             <div class="input-group mt-5">
                 <input type="text" class="form-control" placeholder="Search..." aria-label="Search..." aria-describedby="basic-addon2" id="searchContactsInput">
                 <div class="input-group-append">
-                    <span class="input-group-text"><i class="fas fa-md fa-search"></i></span>
+					<!-- <div class="input-group-text"> -->
+						<button type="button" class="btn btn-secondary" onclick="searchContacts()">
+							<i class="fas fa-md fa-search"></i>
+						</button>
+					<!-- </div> -->
                 </div>
             </div>
         </div>
@@ -104,24 +118,30 @@
 							</button>
 						</div>
 						<div class="modal-body">
+							<div class="alert alert-danger alert-dismissable" id="invalidAddContactAlert" role="alert">
+								At least one name field must be filled out.
+								<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+					    			<span aria-hidden="true">&times;</span>
+					  			</button>
+							</div>
 							<form>
 								<div class="form-row">
 							    <div class="form-group col-md-6">
 							      <label for="inputEmail4">First Name</label>
-							      <input type="email" class="form-control" id="firstNameNew" placeholder="First Name">
+							      <input type="text" class="form-control" id="firstNameNew" placeholder="First Name">
 							    </div>
 							    <div class="form-group col-md-6">
 							      <label for="inputPassword4">Last Name</label>
-							      <input type="password" class="form-control" id="lastNameNew" placeholder="Last Name">
+							      <input type="text" class="form-control" id="lastNameNew" placeholder="Last Name">
 							    </div>
 							  </div>
 								<div class="form-group">
 									<label for="phoneNumber">Phone Number</label>
-									<input type="text" class="form-control" id="phoneNew" placeholder="">
+									<input type="phone" class="form-control" id="phoneNew" placeholder="">
 								</div>
 								<div class="form-group">
 									<label for="email">Email</label>
-									<input type="text" class="form-control" id="emailNew" placeholder="email@example.com">
+									<input type="email" class="form-control" id="emailNew" placeholder="email@example.com">
 								</div>
 							  <div class="form-group">
 							    <label for="inputAddress">Address</label>
@@ -130,14 +150,14 @@
 							  <div class="form-row">
 							    <div class="form-group col-md-6">
 							      <label for="inputBirthday">Birthday</label>
-							      <input type="text" class="form-control" id="birthdateNew">
+							      <input type="date" class="form-control" id="birthdateNew">
 							    </div>
 							  </div>
 							</form>
 						</div>
 						<div class="modal-footer">
 							<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-							<button type="button" class="btn btn-edit" onclick="submitCreateContact()">Create Contact</button>
+							<button type="button" class="btn btn-edit" onclick="submitCreateContact(event)">Create Contact</button>
 						</div>
 					</div>
 				</div>
@@ -145,52 +165,87 @@
 
         </div>
     </div>
+	<div class="row d-flex align-items-center">
+		<div class="ml-3 alert alert-success alert-dismissable" id="contactAddSuccessAlert" role="alert" >
+			New contact successfully created!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+  			</button>
+		</div>
+		<div class="ml-3 alert alert-success alert-dismissable" id="contactDeleteSuccessAlert" role="alert">
+			Contact successfully deleted!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+  			</button>
+		</div>
+		<div class="ml-3 alert alert-success alert-dismissable" id="contactEditSuccessAlert" role="alert">
+			Contact successfully edited!
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+    			<span aria-hidden="true">&times;</span>
+  			</button>
+		</div>
+	</div>
 
 	<div class="row">
-		<div class="col-md-8 datatable">
-
-			<!-- Table Start -->
-			<table id="table_id" class="display nowrap" style="width:100%">
-		    <thead>
-		        <tr>
-					<th>ID</th>
-		            <th>First Name</th>
-		            <th>Last Name</th>
-		        </tr>
-		    </thead>
-			</table>
+		<div class="col-lg-7 datatable">
+			<div class="ml-3 mr-3">
+				<!-- Table Start -->
+				<table id="table_id" class="display nowrap table-hover" style="width:100%">
+			    <thead>
+			        <tr>
+			            <th>First Name</th>
+			            <th>Last Name</th>
+			        </tr>
+			    </thead>
+				</table>
+			</div>
 		</div>
 
 		<!-- Contact Information gets shown here -->
-		<div class="col-md-4 contact-info">
+		<div class="col-lg-5 contact-info" id="contactInfo" style="display: none;">
 
-            <div class="card border-light pt-0">
-                <img class="card-img-top img-fluid rounded-circle" src="img/generic-man-profile.jpg">
+            <div class="card border-light bg-light pt-0">
+                <img class="card-img-top img-fluid rounded-circle d-block" id="corgoPicView" src="img/generic-man-profile.jpg">
                 <div class="card-body text-info">
-                    <form>
+                    <form class="form-horizontal">
                         <div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Name</label>
+							</div>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticName" value="P. Sherman">
+                                <input type="text" readonly class="form-control-plaintext ml-3" id="nameView" value="P. Sherman">
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Phone</label>
+							</div>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticPhone" value="555-5555">
+                                <input type="phone" readonly class="form-control-plaintext ml-3" id="phoneView" value="555-5555">
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Email</label>
+							</div>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticEmail" value="email@example.com">
+                                <input type="email" readonly class="form-control-plaintext ml-3" id="emailView" value="email@example.com">
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Address</label>
+							</div>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticAddress" value="42 Wallaby Way, Sydney">
+                                <textarea readonly class="form-control-plaintext ml-3" id="addressView" value="42 Wallaby Way, Sydney"></textarea>
                             </div>
                         </div>
-                        <div class="form-group row inputItem">
+						<div class="form-group row inputItem">
+							<div class="col-sm-2">
+								<label class="control-label text-nowrap" for="inputPassword4">Birthday</label>
+							</div>
                             <div class="col-sm-10">
-                                <input type="text" readonly class="form-control-plaintext" id="staticBirthday" value="12/12/12">
+                                <input type="text" readonly class="form-control-plaintext ml-3" id="birthdateView" value="12/12/12">
                             </div>
                         </div>
                     </form>
@@ -204,33 +259,39 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                    <button type="button" class="btn btn-edit" onclick="deleteContact()">Delete</button>
+                                    <button type="button" class="btn btn-edit" onclick="deleteContact(event)">Delete</button>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <button type="button" class="btn btn-edit float-right" data-toggle="modal" data-target="#editContact">Edit</button>
+                    <button type="button" class="btn btn-edit float-right" data-toggle="modal" data-target="#editContact" onclick="fillEditContactData()">Edit</button>
 
 										<div class="modal fade" id="editContact" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 											<div class="modal-dialog" role="document">
 												<div class="modal-content">
 													<div class="modal-header">
-														<h5 class="modal-title" id="addContactForm">Edit Contact</h5>
+														<h5 class="modal-title" id="editContactForm">Edit Contact</h5>
 														<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 															<span aria-hidden="true">&times;</span>
 														</button>
 													</div>
 													<div class="modal-body">
+														<div class="alert alert-danger alert-dismissable" id="invalidEditContactAlert" role="alert">
+															At least one name field must be filled out.
+															<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+												    			<span aria-hidden="true">&times;</span>
+												  			</button>
+														</div>
 														<form>
 															<div class="form-row">
 														    <div class="form-group col-md-6">
 														      <label for="inputEmail4">First Name</label>
-														      <input type="email" class="form-control" id="firstNameEdit" placeholder="First Name">
+														      <input type="text" class="form-control" id="firstNameEdit" placeholder="First Name">
 														    </div>
 														    <div class="form-group col-md-6">
 														      <label for="inputPassword4">Last Name</label>
-														      <input type="password" class="form-control" id="lastNameEdit" placeholder="Last Name">
+														      <input type="text" class="form-control" id="lastNameEdit" placeholder="Last Name">
 														    </div>
 														  </div>
 															<div class="form-group">
@@ -248,7 +309,7 @@
 														  <div class="form-row">
 														    <div class="form-group col-md-6">
 														      <label for="inputBirthday">Birthday</label>
-														      <input type="text" class="form-control" id="birthdateEdit">
+														      <input type="date" class="form-control" id="birthdateEdit">
 														    </div>
 														  </div>
 														</form>
