@@ -27,6 +27,11 @@
 	$returned=$prepared->get_result();
 	$data=$returned->fetch_all();
 
+	if (count($data)==0) {
+		returnWithError();
+		return;
+	}
+
 	returnWithInfo($data[0][0], $data[0][1], $data[0][2]);
 
 	function getRequestInfo() {
@@ -40,15 +45,16 @@
 	}
 
 	function returnWithError( $error ) {
-		$retValue='{"user_id":0, "username":"", "password_hash":"", "Error": "'.$error.'"}';
+		$retValue='{"user_id":0, "username":"", "password_hash":"", "error": "'.$error.'"}';
 		return sendResultInfoAsJson($retValue);
+		//Echo($retValue);
 	}
 
 	function returnWithInfo( $id, $username, $password_hash )
 	{
  		$retValue = '{"user_id":' . $id . ',"username":"' . $username . '","password_hash":"' . $password_hash . '"}';
-		Echo($retValue);
-		//sendResultInfoAsJson( $retValue );
+		//Echo($retValue);
+		sendResultInfoAsJson( $retValue );
 	}
 
 	function returnArray($array) {
@@ -66,9 +72,9 @@
 			$i++;
 		}
 		$retValue=$retValue . ']';
-		Echo($retValue);
+		//Echo($retValue);
 
-		//sendResultInfoAsJson($retValue);
+		sendResultInfoAsJson($retValue);
 
 	}
 
