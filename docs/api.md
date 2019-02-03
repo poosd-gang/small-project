@@ -151,12 +151,21 @@ Gets the first user with the valid username/password_hash combination.
 
 ### Returns if unsucessful login:
 ```json
-{"user_id":,"username":"","password_hash":""}
+{
+"user_id": 0,
+"username": "",
+"password_hash": "",
+"error": ""
+}
 ```
 
 ### Returns if successful login:
 ```json
-{"user_id":7,"username":"root","password_hash":"qwerty"}
+{
+"user_id": 7,
+"username": "root",
+"password_hash": "qwerty"
+}
 ```
 
 ---
