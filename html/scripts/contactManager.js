@@ -1,8 +1,8 @@
-var APIRoot = "http://104.248.122.148/php";
-var webRoot = "http://104.248.122.148";
+// var APIRoot = "http://corgoconnect.com/php";
+// var webRoot = "http://corgoconnect.com";
 // Testing on local: comment the two lines above and uncomment the two lines below
-// var APIRoot = "https://cors-anywhere.herokuapp.com/http://104.248.122.148/php";
-// var webRoot = "http://127.0.0.1:3000";
+var APIRoot = "https://cors-anywhere.herokuapp.com/http://corgoconnect.com/php";
+var webRoot = "http://127.0.0.1:3000";
 var fileExtension = ".php";
 var userInfo = new Object();
 var userId = 0;
@@ -17,6 +17,12 @@ $(document).ready(function() {
         window.location = webRoot + "/index.html";
 } );
 
+$(function(){
+    $("[data-hide]").on("click", function(){
+        $(this).closest("." + $(this).attr("data-hide")).hide();
+    });
+});
+
 function setUserDisplay()
 {
     var userInfo = window.name.split(",");
@@ -30,7 +36,7 @@ function fetchCorgiImageURL(callback)
     var corgiAPIUrl = 'https://api.woofbot.io/v1/breeds/corgi/image';
     var xhr = new XMLHttpRequest();
     xhr.open("GET", corgiAPIUrl, true);
-    //xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
+    xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     var corgiImageUrl = "";
     try
     {
@@ -40,6 +46,12 @@ function fetchCorgiImageURL(callback)
                 var jsonObject = JSON.parse(xhr.responseText);
                 corgiImageUrl += jsonObject.response.url;
                 callback(corgiImageUrl);
+            }
+            else if (this.status != 200)
+            {
+                $('.alert').hide();
+                document.getElementById("genericErrorMessage").innerHTML = "Unable to retrieve corgi image.";
+                $("#genericErrorAlert").show();
             }
           };
           xhr.send();
@@ -72,6 +84,13 @@ function addContact(jsonSendObj)
                 $("#contactAddSuccessAlert").show();
                 clearAddContactModal();
             }
+            else if (this.status != 200)
+            {
+                $('.alert').hide();
+                $("#addContact").modal("hide");
+                document.getElementById("genericErrorMessage").innerHTML = "Unable to add contact.";
+                $("#genericErrorAlert").show();
+            }
         };
         xhr.send(jsonPayload);
     }
@@ -84,8 +103,6 @@ function addContact(jsonSendObj)
 
 function validateAddContactInput(corgiImageURL)
 {
-    formData = new FormData(document.getElementById("addContactForm"));
-    formData.append("corgi_pic_url", corgiImageURL);
     var firstNameValue = document.getElementById("firstNameNew").value.trim();
     var lastNameValue = document.getElementById("lastNameNew").value.trim();
     var phoneValue = document.getElementById("phoneNew").value.trim();
@@ -165,6 +182,13 @@ function editContact(jsonSendObj)
                     fetchAllContacts('update');
                 $("#contactEditSuccessAlert").show();
             }
+            else if (this.status != 200)
+            {
+                $('.alert').hide();
+                $("#editContact").modal("hide");
+                document.getElementById("genericErrorMessage").innerHTML = "Unable to edit contact.";
+                $("#genericErrorAlert").show();
+            }
         };
         xhr.send(jsonPayload);
     }
@@ -240,6 +264,12 @@ function searchContacts()
                 var jsonArray = JSON.parse(xhr.responseText);
                 updateTable(jsonArray);
             }
+            else if (this.status != 200)
+            {
+                $('.alert').hide();
+                document.getElementById("genericErrorMessage").innerHTML = "Unable to search contacts.";
+                $("#genericErrorAlert").show();
+            }
         };
         xhr.send(jsonPayload);
     }
@@ -289,6 +319,12 @@ function fetchAllContacts(fetchType)
                 else if (fetchType === 'update')
                     updateTable(jsonArray);
             }
+            else if (this.status !== 200)
+            {
+                $('.alert').hide();
+                document.getElementById("genericErrorMessage").innerHTML = "Unable to get all contacts.";
+                $("#genericErrorAlert").show();
+            }
         };
         xhr.send(jsonPayload);
     }
@@ -322,6 +358,13 @@ function deleteContact(event)
                 else
                     fetchAllContacts('update');
                 $("#contactDeleteSuccessAlert").show();
+            }
+            else if (this.status != 200)
+            {
+                $('.alert').hide();
+                $("#deleteContact").modal("hide");
+                document.getElementById("genericErrorMessage").innerHTML = "Unable to delete contact.";
+                $("#genericErrorAlert").show();
             }
         };
         xhr.send(jsonPayload);
@@ -406,11 +449,14 @@ function createUser(userSalts)
         {
             if (this.readyState == 4 && this.status == 200)
             {
-                //var jsonObject = JSON.parse(xhr.responseText);
-                //toggle modal
                 $('.alert').hide();
                 $("#registerNewUser").modal("hide");
                 $("#createUserSuccessAlert").show();
+            }
+            else if (this.status != 200)
+            {
+                $('.alert').hide();
+                $("#genericErrorRegisterAlert").show();
             }
           };
           xhr.send(jsonPayload);
@@ -448,8 +494,6 @@ function loginUser(userSalts)
     xhr.setRequestHeader("Content-type", "application/json; charset=UTF-8");
     try
     {
-        //disable login button here
-        // document.getElementById("loginButton").disabled = true;
         xhr.onreadystatechange = function()
         {
             if (this.readyState == 4 && this.status == 200)
@@ -468,8 +512,11 @@ function loginUser(userSalts)
                     window.name = username + "," + userId;
                     window.location.href = webRoot + '/home.html';
                 }
-                //enable login button here
-                // document.getElementById("loginButton").disabled = false;
+            }
+            else if (this.status != 200)
+            {
+                $('.alert').hide();
+                $("#genericErrorLoginAlert").show();
             }
           };
           xhr.send(jsonPayload);
@@ -499,4 +546,8 @@ function signOut()
     userId = 0;
     window.name = '';
     window.location.href = webRoot + '/index.html';
+}
+
+function hideDOMAlert() {
+    $('.alert').hide();
 }
