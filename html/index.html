@@ -21,12 +21,6 @@
     <script src="scripts/md5.min.js"></script>
 	<script src="scripts/contactManager.js"></script>
 
-	<script>
-		$(document).ready(function() {
-			$('.alert').hide();
-		});
-	</script>
-
 	<!-- Custom CSS -->
 	<link rel="stylesheet" type="text/css" href="main.css">
 
@@ -44,11 +38,23 @@
 			<div class="col-md-4 login-sec">
 			    <h2 class="text-center">Corgo Connect</h2>
 			    <form class="login-form">
-					<div class="alert alert-danger alert-dismissable" id="invalidLoginAlert" role="alert">
-						Username/password combination is incorrect.
+					<div class="alert alert-danger alert-dismissable" id="genericErrorLoginAlert" role="alert" style="display: none;">
+						Connection error: Unable to login.
+						<button type="button" class="close" data-hide="alert">
+			    			<span aria-hidden="true">&times;</span>
+			  			</button>
 					</div>
-					<div class="alert alert-success alert-dismissable" id="createUserSuccessAlert" role="alert">
+					<div class="alert alert-danger alert-dismissable" id="invalidLoginAlert" role="alert" style="display: none;">
+						Username/password combination is incorrect.
+						<button type="button" class="close" data-hide="alert">
+			    			<span aria-hidden="true">&times;</span>
+			  			</button>
+					</div>
+					<div class="alert alert-success alert-dismissable" id="createUserSuccessAlert" role="alert" style="display: none;">
 						New user successfully created!
+						<button type="button" class="close" data-hide="alert">
+			    			<span aria-hidden="true">&times;</span>
+			  			</button>
 					</div>
 			  	<div class="form-group">
 			    	<label for="Username" class="text-uppercase">Username</label>
@@ -62,7 +68,7 @@
 
 			    <div class="form-check">
 						<!-- <input id="submit" onclick="doLogin()" type="button" value="Submit"> -->
-			    	<button type="button" class="btn btn-login float-right" onclick="submitLoginUser(event)">Login</button>
+			    	<button type="submit" class="btn btn-login float-right" onclick="submitLoginUser(event)">Login</button>
 						<button type="button" class="btn btn-login float-left" data-toggle="modal" data-target="#registerNewUser">Register</button>
 
 						<!-- Create Account Modal -->
@@ -76,9 +82,18 @@
 											</h5>
 						      </div>
 						      <div class="modal-body">
-								  <div class="alert alert-danger alert-dismissable" id="invalidCreateUserAlert" role="alert">
+								  <div class="alert alert-danger alert-dismissable" id="invalidCreateUserAlert" role="alert" style="display: none;">
 									  This username is already taken.
+									  <button type="button" class="close" data-hide="alert">
+						      			<span aria-hidden="true">&times;</span>
+						    		</button>
 								  </div>
+								  <div class="alert alert-danger alert-dismissable" id="genericErrorRegisterAlert" role="alert" style="display: none;">
+			  						Connection error: Unable to create user.
+									<button type="button" class="close" data-hide="alert">
+						    			<span aria-hidden="true">&times;</span>
+						  			</button>
+			  					</div>
 								  <div class="form-group">
 								    	<label for="Username" class="text-uppercase">Username</label>
 								    	<input type="text" class="form-control" placeholder="" id="newUserName">
