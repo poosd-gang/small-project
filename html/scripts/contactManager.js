@@ -1,8 +1,5 @@
-// var APIRoot = "http://corgoconnect.com/php";
-// var webRoot = "http://corgoconnect.com";
-// Testing on local: comment the two lines above and uncomment the two lines below
-var APIRoot = "https://cors-anywhere.herokuapp.com/http://corgoconnect.com/php";
-var webRoot = "http://127.0.0.1:60413";
+var APIRoot = "http://corgoconnect.com/php";
+var webRoot = "http://corgoconnect.com";
 var fileExtension = ".php";
 var userInfo = new Object();
 var userId = 0;
