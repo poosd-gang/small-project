@@ -1,8 +1,8 @@
-var APIRoot = "http://corgoconnect.com/php";
-var webRoot = "http://corgoconnect.com";
+// var APIRoot = "http://corgoconnect.com/php";
+// var webRoot = "http://corgoconnect.com";
 // Testing on local: comment the two lines above and uncomment the two lines below
-// var APIRoot = "https://cors-anywhere.herokuapp.com/http://corgoconnect.com/php";
-// var webRoot = "http://127.0.0.1:3000";
+var APIRoot = "https://cors-anywhere.herokuapp.com/http://corgoconnect.com/php";
+var webRoot = "http://127.0.0.1:60413";
 var fileExtension = ".php";
 var userInfo = new Object();
 var userId = 0;
@@ -11,18 +11,21 @@ var password = '';
 var corgiGlobalUrl = '';
 var individualContact = null;
 
+// Ensures that user cannot get to home before login
 $(document).ready(function() {
     var currentUrl = window.location.href;
     if (currentUrl.indexOf("home") >= 0 && window.name === '')
         window.location = webRoot + "/index.html";
 } );
 
+// Creates hide attribute for alerts
 $(function(){
     $("[data-hide]").on("click", function(){
         $(this).closest("." + $(this).attr("data-hide")).hide();
     });
 });
 
+// Sets user display information in navbar
 function setUserDisplay()
 {
     var userInfo = window.name.split(",");
@@ -31,6 +34,7 @@ function setUserDisplay()
     document.getElementById("userDisplay").innerHTML = username;
 }
 
+// Gets a random image URL from a corgi image API
 function fetchCorgiImageURL(callback)
 {
     var corgiAPIUrl = 'https://api.woofbot.io/v1/breeds/corgi/image';
@@ -63,6 +67,7 @@ function fetchCorgiImageURL(callback)
     }
 }
 
+// Sends new contact information to website API
 function addContact(jsonSendObj)
 {
     var url = APIRoot + '/contactAdd' + fileExtension;
@@ -101,6 +106,7 @@ function addContact(jsonSendObj)
     }
 }
 
+// Validates new contact information
 function validateAddContactInput(corgiImageURL)
 {
     var firstNameValue = document.getElementById("firstNameNew").value.trim();
@@ -134,12 +140,14 @@ function validateAddContactInput(corgiImageURL)
     addContact(jsonSendObject);
 }
 
+// Begins the process of adding a contact by first getting the image URL
 function submitCreateContact(event)
 {
     event.preventDefault();
     fetchCorgiImageURL(validateAddContactInput);
 }
 
+// Clears the add contact modal information upon hiding
 function clearAddContactModal()
 {
     document.getElementById("firstNameNew").value = '';
@@ -150,6 +158,7 @@ function clearAddContactModal()
     document.getElementById("birthdateNew").value = '';
 }
 
+// Transfers currently selected contact information to edit contact modal
 function fillEditContactData()
 {
     document.getElementById("firstNameEdit").value = individualContact.first_name;
@@ -160,6 +169,7 @@ function fillEditContactData()
     document.getElementById("birthdateEdit").value = individualContact.birthdate;
 }
 
+// Sends modified contact information to website API
 function editContact(jsonSendObj)
 {
     var url = APIRoot + '/contactEdit' + fileExtension;
@@ -199,6 +209,7 @@ function editContact(jsonSendObj)
     }
 }
 
+// Validates modified data for editing a contact
 function validateEditContactInput(event)
 {
     event.preventDefault();
@@ -234,6 +245,7 @@ function validateEditContactInput(event)
     editContact(jsonSendObject);
 }
 
+// Resets rows of the contacts table with new information
 function updateTable(dataArray)
 {
     // This needs to be in the HTML file script instead of the current datatable call
@@ -245,6 +257,7 @@ function updateTable(dataArray)
     table.draw();
 }
 
+// Sends search input to website API and returns search results
 function searchContacts()
 {
     var jsonSendObject = new Object();
@@ -280,10 +293,10 @@ function searchContacts()
     }
 }
 
+// Initializes table for the first tiem with necessary settings and data
 function initTable(jsonArray)
 {
     $('#table_id').DataTable( {
-        //ajax:           "data/sample.txt",
         data: jsonArray,
         columns: [
             {
@@ -293,11 +306,13 @@ function initTable(jsonArray)
                data : "last_name"
            },
         ],
-        // deferRender:    true,
-        searching:      false
+        searching: false,
+        scrollY: "415px",
+        scrollCollapse: true
     } );
 }
 
+// Gets all contacts for a user from the website API. This function either sends the data to the table to be initialized or updated
 function fetchAllContacts(fetchType)
 {
     var jsonSendObject = new Object();
@@ -334,6 +349,7 @@ function fetchAllContacts(fetchType)
     }
 }
 
+// Deletes a contact from the website API by sending the contact id
 function deleteContact(event)
 {
     event.preventDefault();
@@ -376,6 +392,7 @@ function deleteContact(event)
     }
 }
 
+// Loads contact view panel with selected contact information and stores it into a variable
 function fetchContactInfo(data)
 {
     individualContact = data;
@@ -388,6 +405,7 @@ function fetchContactInfo(data)
     document.getElementById("contactInfo").style.display = "block";
 }
 
+// Gets salt(s) for a username from the website API
 function fetchUserSalts(userName, callback)
 {
     var url = APIRoot + '/userGetSalt' + fileExtension;
@@ -418,11 +436,20 @@ function fetchUserSalts(userName, callback)
     }
 }
 
+// Validates a new user and sends new user information to website API.
 function createUser(userSalts)
 {
     var url = APIRoot + '/userAdd' + fileExtension;
-    var newUserName = document.getElementById("newUserName").value;
-    var newPassword = document.getElementById("newPassword").value;
+    var newUserName = document.getElementById("newUserName").value.trim();
+    var newPassword = document.getElementById("newPassword").value.trim();
+
+    if (newUserName.length === 0 || newPassword.length === 0)
+    {
+        $('.alert').hide();
+        $("#invalidCreateUserAlert").show();
+        return;
+    }
+
     var salt = Math.random().toString(36).substring(0, 5) + Math.random().toString(36).substring(5, 10);
     newPassword += salt;
     var passwordHash = md5(newPassword);
@@ -430,7 +457,7 @@ function createUser(userSalts)
     if (userSalts.length > 0)
     {
         $('.alert').hide();
-        $("#invalidCreateUserAlert").show();
+        $("#duplicateUserNameAlert").show();
         return;
     }
 
@@ -468,6 +495,8 @@ function createUser(userSalts)
     }
 }
 
+// Validates login information and sends login information to website API.
+// Returns valid user ID along with original info if successful.
 function loginUser(userSalts)
 {
     var url = APIRoot + '/login' + fileExtension;
@@ -528,26 +557,41 @@ function loginUser(userSalts)
     }
 }
 
+// Begins process of creating a new user by first getting any user salts for the new username
 function submitCreateUser(event)
 {
     event.preventDefault();
+
+    if (document.getElementById("newUserName").value.length === 0)
+    {
+        $('.alert').hide();
+        $("#invalidCreateUserAlert").show();
+        return;
+    }
+
     fetchUserSalts(document.getElementById("newUserName").value, createUser);
 }
 
+// Begins process of logging in by first getting any user salts for username
 function submitLoginUser(event)
 {
     event.preventDefault();
+
+    if (document.getElementById("username").value.length === 0)
+    {
+        $('.alert').hide();
+        $("#invalidLoginAlert").show();
+        return;
+    }
+
     fetchUserSalts(document.getElementById("username").value, loginUser);
 }
 
+// Signs out user by deleting resetting local user information and redirects to login page.
 function signOut()
 {
     username = '';
     userId = 0;
     window.name = '';
     window.location.href = webRoot + '/index.html';
-}
-
-function hideDOMAlert() {
-    $('.alert').hide();
 }
